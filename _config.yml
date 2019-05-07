@@ -4,6 +4,8 @@ author: niku
 description: > # this means to ignore newlines until "show_exerpts:"
   page in progres...
 
+twitter_username: NistelbergerK
+
 show_excerpts: false # set to true to show excerpts on the homepage
 
 # Minima date format
@@ -12,8 +14,8 @@ minima:
   date_format: "%b %-d, %Y"
 
   # generate social links in footer
-  social_links:
-    twitter_username: NistelbergerK
+  #social_links:
+  #  twitter_username: NistelbergerK
 
 # If you want to link only specific pages in your header, uncomment
 # this and add the path to the pages in order as they should show up
