@@ -6,6 +6,8 @@ description: > # this means to ignore newlines until "show_exerpts:"
 
 show_excerpts: false # set to true to show excerpts on the homepage
 
+twitter_username: NistelbergerK
+
 # Minima date format
 # refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
 minima:
@@ -13,7 +15,7 @@ minima:
 
   # generate social links in footer
   social_links:
-    twitter: NistelbergerK
+    twitter_username: NistelbergerK
 
 # If you want to link only specific pages in your header, uncomment
 # this and add the path to the pages in order as they should show up
