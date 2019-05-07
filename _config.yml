@@ -1,4 +1,4 @@
-title: Reverse Engineering for Fun
+title: Things I usually forget, written down
 author: niku
 #email: email<todo>
 description: > # this means to ignore newlines until "show_exerpts:"
@@ -13,7 +13,7 @@ minima:
 
   # generate social links in footer
   social_links:
-    twitter: @NistelbergerK
+    twitter: NistelbergerK
     github:  gast04
 
 # If you want to link only specific pages in your header, uncomment
