@@ -6,8 +6,6 @@ description: > # this means to ignore newlines until "show_exerpts:"
 
 show_excerpts: false # set to true to show excerpts on the homepage
 
-twitter_username: NistelbergerK
-
 # Minima date format
 # refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
 minima:
