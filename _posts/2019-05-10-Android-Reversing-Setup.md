@@ -15,3 +15,17 @@ we just paste in the URL from Google Play and download the APK file.
 
 Now that we have the APK-File we can start analysing it :)
 
+# Analysing APK-Files
+
+In my mind a good point to start is using the MobFS - Framework, it comes 
+with lot of Features, and since it provides a docker image, it is super easy
+to start.
+
+To do dynamic analysis as well, we have to install it on the Host.
+Once the installation and static analysis has finshed (which may take a while)
+we can easily inspect the results in the web interface.
+
+Besides providing some really nice insights about the APK it also decompiles
+the jar Files, means we don't have to install dex2jar on our own.
+
+
