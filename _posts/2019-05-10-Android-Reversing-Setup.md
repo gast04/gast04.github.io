@@ -20,6 +20,8 @@ we just paste in the URL from Google Play and download the APK file.
 
 Now that we have the APK-File we can start analysing it :)
 
+<br/>
+___
 
 # Analysis without Reversing the APK
 
@@ -83,9 +85,8 @@ above, which occurs by Koplayer, when I wanna attach to an running app. We can
 start the emulator using:    
 `PathTo/emulator.exe -avd AVDRoot -writable-system -selinux permissive`
 
-<br/><br/>
-
-***
+<br/>
+___
 # Deep look into the APK
 
 In my mind a good point to start is using the MobFS - Framework, it comes 
