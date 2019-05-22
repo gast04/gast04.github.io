@@ -60,6 +60,7 @@ we can install it.
 > The Google APIs Image does allow you a root shell by the following commands: 
 > > adb root
 > > adb shell
+
 > The difference between these two images is that the play Image has the Google Play
 > Store already installed and you can download Apps, but since we analyse only a single
 > specific App we don't need that anyway.
