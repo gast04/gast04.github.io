@@ -57,8 +57,8 @@ we can install it.
 > It's important to take care which System Target you use for the AVD since a Google Play
 > System Image will not allow you to get a root shell using `adb shell`, it has several
 > restrictions and does not allow to run the adbd as root. 
-> The Google APIs Image does allow you a root shell by the following commands: 
-> > adb root
+> The Google APIs Image does allow you a root shell by the following commands:\
+> > adb root\
 > > adb shell
 
 > The difference between these two images is that the play Image has the Google Play
@@ -67,13 +67,13 @@ we can install it.
 
 **my experience**
 
-KOPLAYER: 
-PRO: fast, easy to use, many root tools already installed
-CON: I don't know how to install a proxy
-(koplayer adb is by default listening on port 6555, `adb connect 127.0.0.1:6555`) 
+KOPLAYER:\ 
+PRO: fast, easy to use, many root tools already installed\
+CON: I don't know how to install a proxy\
+(koplayer adb is by default listening on port 6555, `adb connect 127.0.0.1:6555`)
 
-AVD Emulator:
-PRO: feature rich
+AVD Emulator:\
+PRO: feature rich\
 CON: harder to use and to start with it
 
 
