@@ -3,6 +3,7 @@ Goals before start:
 * make everything in an Emulator<br/>
 (only Android so far)
 
+<br/>
 # Downloading APK Files
 
 My first Attempt was to setup a KOPLAYER instance and download the APK File
@@ -21,8 +22,6 @@ we just paste in the URL from Google Play and download the APK file.
 Now that we have the APK-File we can start analysing it :)
 
 <br/>
-___
-
 # Analysis without Reversing the APK
 
 Before we get into reversing APK-Files we should make some basic analysis to 
@@ -86,7 +85,6 @@ start the emulator using:
 `PathTo/emulator.exe -avd AVDRoot -writable-system -selinux permissive`
 
 <br/>
-___
 # Deep look into the APK
 
 In my mind a good point to start is using the MobFS - Framework, it comes 
@@ -100,7 +98,7 @@ we can easily inspect the results in the web interface.
 Besides providing some really nice insights about the APK it also decompiles
 the jar Files, means we don't have to install dex2jar on our own.
 
-
+<br/>
 # Frida
 
 To use Frida it is necessary to install latest python 3.x, if you install the wrong
@@ -116,5 +114,24 @@ The Error I got was similar to:
 > Please ensure that the extension was compiled for Python 3.x.
 > \*\*\*
 
-TODO: add basic commands
+Ressourece: [Frida-Hacking](https://awakened1712.github.io/hacking/hacking-frida/)   
+
+frida-ps -U      show processes   
+frida -U <pid>   attach to running process   
+frida -D <id>    execute on specific device
+
+<br/>
+# Some Commands / Notes
+
+choose specific device   
+`adb -s 7f1c864e shell`   
+push a file
+`adb -s emulator-5554 push pathto\fridaserver /data`   
+
+make fridaserver executeable and start
+for frida server download [use](https://github.com/frida/frida/releases) 
+the emulator is x86 so choose this server version as well!
+
+Add "%LOCALAPPDATA%\Android\sdk\platform-tools" to Environment Variables to make it 
+availbe in cmd, without starting by path (same for emulator, if wanted)
 
