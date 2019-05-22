@@ -93,4 +93,17 @@ the jar Files, means we don't have to install dex2jar on our own.
 
 # Frida (TODO)
 
+To use Frida it is necessary to install latest python 3.x, if you install the wrong
+python version, frida will complain, I had installed python 3.6 instead of the needed
+3.7 and that was already not working. But there is a small workaround for this, we have
+to patch the necessary python version into frida, since it is hardcoded. Therefore
+open the file `_frida.cp36-win_amd64.pyd` and replace "python37.dll" with "python36.dll", 
+after this I got no more errors and frida was working fine.
+
+The Error I got was similar to:
+> ***
+> Failed to load the Frida native extension: DLL load failed: The specified module could not be found.
+> Please ensure that the extension was compiled for Python 3.x.
+> ***
+
 
