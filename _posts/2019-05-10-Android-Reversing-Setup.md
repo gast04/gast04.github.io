@@ -59,7 +59,7 @@ we can install it.
 > restrictions and does not allow to run the adbd as root. 
 > The Google APIs Image does allow you a root shell by the following commands:
 > > \>\_ adb root<br/>
-> > \>\_ db shell
+> > \>\_ adb shell
 
 > The difference between these two images is that the play Image has the Google Play
 > Store already installed and you can download Apps, but since we analyse only a single
