@@ -69,6 +69,7 @@ we can install it.
 KOPLAYER: 
 PRO: fast, easy to use, many root tools already installed
 CON: I don't know how to install a proxy
+(koplayer adb is by default listening on port 6555, `adb connect 127.0.0.1:6555`) 
 
 AVD Emulator:
 PRO: feature rich
