@@ -117,15 +117,15 @@ The Error I got was similar to:
 Ressourece: [Frida-Hacking](https://awakened1712.github.io/hacking/hacking-frida/)   
 
 frida-ps -U      show processes   
-frida -U <pid>   attach to running process   
-frida -D <id>    execute on specific device
+frida -U \<pid\>   attach to running process   
+frida -D \<id\>    execute on specific device
 
 <br/>
 # Some Commands / Notes
 
 choose specific device   
-`adb -s 7f1c864e shell`   
-push a file
+`adb -s 7f1c864e shell` 
+push a file   
 `adb -s emulator-5554 push pathto\fridaserver /data`   
 
 make fridaserver executeable and start
