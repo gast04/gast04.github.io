@@ -58,8 +58,8 @@ we can install it.
 > System Image will not allow you to get a root shell using `adb shell`, it has several
 > restrictions and does not allow to run the adbd as root. 
 > The Google APIs Image does allow you a root shell by the following commands:
-> > adb root<br/>
-> > adb shell
+> > \>\_ adb root<br/>
+> > \>\_ db shell
 
 > The difference between these two images is that the play Image has the Google Play
 > Store already installed and you can download Apps, but since we analyse only a single
@@ -76,7 +76,15 @@ AVD Emulator:<br/>
 PRO: feature rich<br/>
 CON: harder to use and to start with it
 
+`Failed to attach: remote_write PTRACE_POKEDATA head failed: 5`<br\>
+Even Koplayer is faster, I am going with the AVD Emulator, it just has better
+features, and we can disable SELinux at startup to avoid the error message
+above, which occurs by Koplayer, when I wanna attach to an running app. We can 
+start the emulator using: <br\>
+`PathTo/emulator.exe -avd AVDRoot -writable-system -selinux permissive`</br>
 
+
+***
 # Deep look into the APK
 
 In my mind a good point to start is using the MobFS - Framework, it comes 
@@ -91,7 +99,7 @@ Besides providing some really nice insights about the APK it also decompiles
 the jar Files, means we don't have to install dex2jar on our own.
 
 
-# Frida (TODO)
+# Frida
 
 To use Frida it is necessary to install latest python 3.x, if you install the wrong
 python version, frida will complain, I had installed python 3.6 instead of the needed
@@ -101,9 +109,10 @@ open the file `_frida.cp36-win_amd64.pyd` and replace "python37.dll" with "pytho
 after this I got no more errors and frida was working fine.
 
 The Error I got was similar to:
-> ***
+> \*\*\*
 > Failed to load the Frida native extension: DLL load failed: The specified module could not be found.
 > Please ensure that the extension was compiled for Python 3.x.
-> ***
+> \*\*\*
 
+TODO: add basic commands
 
