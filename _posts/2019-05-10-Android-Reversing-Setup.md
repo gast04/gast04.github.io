@@ -80,8 +80,7 @@ CON: harder to use and to start with it
 Even Koplayer is faster, I am going with the AVD Emulator, it just has better
 features, and we can disable SELinux at startup to avoid the error message
 above, which occurs by Koplayer, when I wanna attach to an running app. We can 
-start the emulator using:  
-  
+start the emulator using:    
 `PathTo/emulator.exe -avd AVDRoot -writable-system -selinux permissive`
 
 <br/><br/>
