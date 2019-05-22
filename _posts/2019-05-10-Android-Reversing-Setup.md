@@ -76,7 +76,7 @@ AVD Emulator:<br/>
 PRO: feature rich<br/>
 CON: harder to use and to start with it
 
-`Failed to attach: remote_write PTRACE_POKEDATA head failed: 5`<br\>
+`Failed to attach: remote_write PTRACE_POKEDATA head failed: 5`   
 Even Koplayer is faster, I am going with the AVD Emulator, it just has better
 features, and we can disable SELinux at startup to avoid the error message
 above, which occurs by Koplayer, when I wanna attach to an running app. We can 
