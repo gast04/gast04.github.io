@@ -136,7 +136,7 @@ frida -D \<id\>    execute on specific device
 # Some Commands / Notes
 
 choose specific device   
-`adb -s 7f1c864e shell` 
+`adb -s 7f1c864e shell`    
 push a file   
 `adb -s emulator-5554 push pathto\fridaserver /data`   
 
@@ -146,4 +146,7 @@ the emulator is x86 so choose this server version as well!
 
 Add "%LOCALAPPDATA%\Android\sdk\platform-tools" to Environment Variables to make it 
 availbe in cmd, without starting by path (same for emulator, if wanted)
+
+## Usefull Ressources
+[OWASP-Mobile-Security-Guide](https://www.owasp.org/index.php/OWASP_Mobile_Security_Testing_Guide)
 
