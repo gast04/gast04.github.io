@@ -1,7 +1,7 @@
-Goals before start: 
-* do it on Windows
-* make everything in an Emulator<br/>
-(only Android so far)
+
+Design decisions: 
+* setup on Windows10
+* everything was done via an Emulator<br/>
 
 <br/>
 # Downloading APK Files
@@ -97,6 +97,18 @@ we can easily inspect the results in the web interface.
 
 Besides providing some really nice insights about the APK it also decompiles
 the jar Files, means we don't have to install dex2jar on our own.
+
+To check if the App allows debugging we can use "jdb"(java debugger tool), first we need the
+PID of the app we want to debug we can get that by 'adb jdwp' or using
+'frida-ps -U'. We have to add port forwarding now and can later connect 
+to the forwarded port. 
+
+> adb forward tcp:55555 jdwp:<pid>
+> jdb -connect com.sun.jdi.SocketAttach:hostname=localhost,port=55555
+
+If this does not work, debugging is disabled, this can be also checked via
+the Manifest file by searching for 'android:debuggable' which should be set
+to false for all released applications.
 
 <br/>
 # Frida
