@@ -147,6 +147,6 @@ the emulator is x86 so choose this server version as well!
 Add "%LOCALAPPDATA%\Android\sdk\platform-tools" to Environment Variables to make it 
 availbe in cmd, without starting by path (same for emulator, if wanted)
 
-## Usefull Ressources
+**Usefull Ressources**
 [OWASP-Mobile-Security-Guide](https://www.owasp.org/index.php/OWASP_Mobile_Security_Testing_Guide)
 
