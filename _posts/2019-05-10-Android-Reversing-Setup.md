@@ -135,10 +135,9 @@ frida -D \<id\>    execute on specific device
 <br/>
 # Some Commands / Notes
 
-choose specific device   
 `adb -s 7f1c864e shell`    
-push a file   
 `adb -s emulator-5554 push pathto\fridaserver /data`   
+`adb pull /data/data/app/file .`
 
 make fridaserver executeable and start
 for frida server download [use](https://github.com/frida/frida/releases) 
