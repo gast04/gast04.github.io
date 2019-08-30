@@ -116,22 +116,22 @@ endless loop. Looking at the main graph in r2 we get something like
 ``` 
 [0x470]
 (fcn) main
-            f t                                                                          
+            f t 
             │ │           0x470: start of Setup 
-   ╭────────╯ ╰╮                                                                         
-   │           │                                                                         
-  __x560__[ob] │                                                                         
-   v           │                                                                         
-   │           │                                                                         
-   ╰──────╮    │                                                                         
-          │ ╭──╯                                                                         
-          │ │                                                        
-       __x586__[oc]                                                                      
-          v                                                                                
-          ╰─╮                                                                              
-            │                                                                              
-   ╭──────╮ │                                                                        
-   │      │ │                                                                       
+   ╭────────╯ ╰╮
+   │           │
+  __x560__[ob] │
+   v           │
+   │           │
+   ╰──────╮    │
+          │ ╭──╯
+          │ │ 
+       __x586__[oc]
+          v 
+          ╰─╮ 
+            │ 
+   ╭──────╮ │ 
+   │      │ │ 
    │   __x58a__[of]        0x58A: start of MainLoop
    │      │ 
    ╰──────╯
@@ -150,6 +150,32 @@ If it is not stripped it's easy (if you can read avr assembly), functions are na
 We still have the source code, so that makes it anyway easy, what is ***sym.digitalWrite.constprop*** doing, in a stripped binary we don't have names, (I don't know why it is called constprop, as well,
 I assume because it only takes one parameter which says HIGH or LOW but not the Port, so probably it is
 called constprop because it's always using the same Port and Bit, ***TODO:*** verify)
+
+It is interesting what the compiler is doing here, adding more pins to the simple program changes the definition of 
+the ***sym.digitalWrite.constprop***, now it takes two parameters instead of one, it takes the pin and the value (HIGH/LOW) and it doesn't have the suffix ***constprop*** anymore. 
+
+```
+0x000005a8  61e0  ldi r22, 0x01   ; value
+0x000005aa  8de0  ldi r24, 0x0d   ; pin
+0x000005ac  62de  rcall sym.digitalWrite
+```
+
+Taking a look into the ***digitalWrite*** funtion we can analyse further and see that the pin is getting hardcoded into
+the digitalWrite function if we only use one, that's in the beginning of the function.
+
+
+```
+mov     r19, r24   ; r19 = value
+ldi     r30, 0xD5	 ; r30 = hardcoded pin 
+
+vs.
+
+mov     r19, r22   ; r19 = value
+ldi     r30, r24   ; r30 = pin 
+```
+
+The rest of the function, does nothing special, saving SREG, disable Interrupts writing clearing or setting the pin,
+restoring SREG and return. We can also look up the source in ***wiring_digital.c***.
 
 
 
