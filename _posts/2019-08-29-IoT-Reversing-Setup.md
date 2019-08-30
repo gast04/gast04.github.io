@@ -288,6 +288,21 @@ GDB-Commands, I always forget...
 
 <br>
 
+My final commands now to emulate an arduino board using the simduino emulator: 
+(first we have to build it of course)
+> 1: ./obj-x86_64-linux-gnu/simduino.elf -d /pathTo/program.atmega328p.hex
+> 2: picocom /tmp/simavr-uart0
+
+either:
+> 3.0: avr-gdb -q 
+> 3.1: (gdb) target remote:1234
+> 3: r2 -a avr -d gdb://127.0.0.1:1234
+
+All commands should to be executed in differnt terminals, since you need the 
+picocom terminal for inputs and the debugger...
+
+<br>
+
 Performing now debugging, is still not a easy task, even we have now all the tools needed and a working
 debugging setup, if we for exmaple don't know the instruction which is reading the input from the UART, or
 if we don't know that we have to search for `ld r24, x` we will not succeed, and we will not be able to name functions and break down the program into smaller parts. Therfore now some AVR basics:
