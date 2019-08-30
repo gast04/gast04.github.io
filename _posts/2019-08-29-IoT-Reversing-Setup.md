@@ -112,7 +112,7 @@ endless loop. Looking at the main graph in r2 we get something like
 ``` 
 [0x470]
 (fcn) main
-            f t                                                                          
+            f t 
             │ │           0x470: start of Setup 
    ╭────────╯ ╰╮
    │           │
