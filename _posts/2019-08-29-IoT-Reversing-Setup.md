@@ -178,6 +178,44 @@ The rest of the function, does nothing special, saving SREG, disable Interrupts 
 restoring SREG and return. We can also look up the source in ***wiring_digital.c***.
 
 
+#### what if we only have the .hex file?
+
+The .hex file is the acutal code, before it gets loaded on the microcontroller, one line looks like following, if we open the original .elf file in radare and compare it we can see a pattern.
+
+
+```
+:1000000007C1000033C1000031C100002FC1000052
+
+can be split into
+
+:10 0000 00 07C1000033C1000031C100002FC10000 52
+ |    |   |               |                   |
+Idk   |  Idk          Code bytes          Checksum
+    Offset
+```
+
+With this knowledge we can write a python script and convert the .hex file back into a binary
+
+```python
+import binascii
+
+hexfile = open("code.hex")
+hexcontent = hexfile.readlines()
+
+binaryfile = open("generated.elf", "wb")
+
+for line in hexcont:
+  binaryfile.write(binascii.unhexlify(line[9:-3]))
+
+binaryfile.close()
+```
+
+We can analyse the generated binary using r2. We notice some difference because all the elf-header is missing and so on, 
+for example the Linux `file` command only detects it as data and r2 doesn't know where to load it, but analysing it 
+using `aaa` detects the entry and which is calling the main function, so same procedure as before.
+
+Analysing AVR-code can be hard, it's a different ISA and if you are not familar with it, it can get hard 
+and will require lot instruciton googling...
 
 
 
