@@ -93,6 +93,11 @@ binaries as well.
 
 By knowing the architecture we can choose the correct IDA-config
 
+Note:<br/>
+To use the AVR-Toolchain, we need to export the installtion Path, or we always
+call it from the install directory:
+> export PATH="$PATH:/PathTo/Arduino/Software/arduino-1.8.9/hardware/tools/avr/bin"  
+
 ___
 ## using radare2 
 
@@ -187,7 +192,7 @@ can be split into
 :10 0000 00 07C1000033C1000031C100002FC10000 52
  |    |   |               |                   |
 Idk   |  Idk          Code bytes          Checksum
-	Offset
+   Offset
 ```
 
 With this knowledge we can write a python script and convert the .hex file back into a binary
