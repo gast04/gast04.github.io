@@ -314,8 +314,41 @@ assembly has no labels, so we don't know if it is UBRRnH or RXENn or something e
 Knowing this, and the rest will be hopefully reading simple code :)
 
 
+## RISCV
+
+Sometime it might be also necessary to debug an analyze RISCV-programs
+and binaries, this is again way easier if you can make dynamic analysis 
+than only static analysis.
+
+There are two different types of programs where we have to take care
+of if it is a program for a riscv OS, than we can use the emulator or
+if it a program for an riscv embedded system, than we need a full 
+system emulator. For both cases we have good tools which help us.
+
+
+### RISCV Program
+
+TODO
+
+### RISCV Embedded System
+
+To run/simulate a embedded system software we would need the corresponding
+hardware if we don't have that we can use qemu. Luckily it has RISCV support.<br/>
+
+[https://download.qemu.org](https://download.qemu.org)
+
+> ./configure --target-list=riscv64-softmmu,riscv32-softmmu,riscv64-linux-user,riscv32-linux-user<br/>
+> make -j4<br/>
+> sudo make install<br/>
+
+start Program/Kernel using: <br/>
+> qemu-system-riscv32 -nographic -machine sifive_e -kernel <program>
+
+There are a lot of extra options available which makes the usage very nice, 
+and we can also debug it of course using the `-s` switch, which is a shorthand
+for `-gdb tcp::1234`.
 
 
 ## IDA
-todo
+still a TODO
 
