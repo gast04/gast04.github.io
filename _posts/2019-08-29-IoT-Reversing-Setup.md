@@ -338,7 +338,7 @@ which allows connecting gdb or r2 to it, but I found a quite nice
 Instruction Tracer which prints all instructions, this maybe quite 
 helpfull and can be enabled using the `-l` switch.<br/>
 
-> rv-jit <program> <br/>
+> rv-jit program <br/>
 
 (I didn't play around with the debug cli for now)
 
@@ -355,7 +355,7 @@ unpack it and install it with:
 > sudo make install<br/>
 
 start Program/Kernel using: <br/>
-> qemu-system-riscv32 -nographic -machine sifive_e -kernel <program>
+> qemu-system-riscv32 -nographic -machine sifive_e -kernel program
 
 There are a lot of extra options available which makes the usage very nice, 
 and we can also debug it of course using the `-s` switch, which is a shorthand
