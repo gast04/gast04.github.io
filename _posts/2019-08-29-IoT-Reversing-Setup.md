@@ -328,14 +328,27 @@ system emulator. For both cases we have good tools which help us.
 
 ### RISCV Program
 
-TODO
+There is a just in time interpreter for RISCV binaries, which can be found at [https://rv8.io](https://rv8.io) including all the installation instructions. <br/>
+
+It also needs the riscv-gnu-toolchain, this is a quite big one and 
+will take it's time for compiling.<br/>
+
+It really works nicely out of the box. I didn't found a debug listener
+which allows connecting gdb or r2 to it, but I found a quite nice
+Instruction Tracer which prints all instructions, this maybe quite 
+helpfull and can be enabled using the `-l` switch.<br/>
+
+> rv-jit <program> <br/>
+
+(I didn't play around with the debug cli for now)
 
 ### RISCV Embedded System
 
 To run/simulate a embedded system software we would need the corresponding
 hardware if we don't have that we can use qemu. Luckily it has RISCV support.<br/>
 
-[https://download.qemu.org](https://download.qemu.org)
+Download the latest qemu version from [https://download.qemu.org](https://download.qemu.org) 
+unpack it and install it with:
 
 > ./configure --target-list=riscv64-softmmu,riscv32-softmmu,riscv64-linux-user,riscv32-linux-user<br/>
 > make -j4<br/>
