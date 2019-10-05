@@ -4,6 +4,7 @@ Design decisions:
 * everything was done via an Emulator<br/>
 
 <br/>
+___
 # Downloading APK Files
 
 My first Attempt was to setup a KOPLAYER instance and download the APK File
@@ -22,6 +23,7 @@ we just paste in the URL from Google Play and download the APK file.
 Now that we have the APK-File we can start analysing it :)
 
 <br/>
+___
 # Analysis without Reversing the APK
 
 Before we get into reversing APK-Files we should make some basic analysis to 
@@ -85,6 +87,7 @@ start the emulator using:
 `PathTo/emulator.exe -avd AVDRoot -writable-system -selinux permissive`
 
 <br/>
+___
 # Deep look into the APK
 
 In my mind a good point to start is using the MobFS - Framework, it comes 
@@ -116,6 +119,7 @@ the Manifest file by searching for 'android:debuggable' which should be set
 to false for all released applications.
 
 <br/>
+___
 # Frida
 
 To use Frida it is necessary to install latest python 3.x, if you install the wrong
@@ -138,6 +142,7 @@ frida -U \<pid\>   attach to running process
 frida -D \<id\>    execute on specific device
 
 <br/>
+___
 # Some Commands / Notes
 
 `adb -s 7f1c864e shell`    
@@ -169,3 +174,51 @@ xx-xx xx:xx:xx.xxx  8193  8193 F Frida   : Unable to locate the Android linker; 
 
 **Further Usefull Ressources**
 [OWASP-Mobile-Security-Guide](https://www.owasp.org/index.php/OWASP_Mobile_Security_Testing_Guide)
+
+___
+# Patching APK-Files
+
+Patching APK files is not as straigthforward as patching Linux/Windows binaries. I really like `apktool` 
+here to do this for me. We first unpack/unzip the APK File.
+
+`java -jar apktool_2.4.0.jar d App.apk`
+
+After we cann edit the files in unpacked, probably we wanna change some code, so we will edit 
+the smali files. We can pack the File again by using.
+
+`java -jar apktool_2.4.0.jar b AppUnpackFolder/ `
+
+The patched APK file can be found in the dist-directory of the unpacked folder. We can try installing 
+the APK file now but it will not work...
+
+```
+adb install App.apk
+  adb: failed to install App.apk: Failure [INSTALL_PARSE_FAILED_NO_CERTIFICATES: 
+  Failed to collect certificates from /data/app/vmdl207535598.tmp/base.apk: Attempt to 
+  get length of null array]
+```
+
+What we missed is that we first need to sign the APK. This can be done creating a Keystore and 
+a Key and after we use this to sign the app. I used the following commands for that, maybe there
+is a better way, but it did the Job:
+
+```
+keytool -genkey -alias mydomain -keyalg RSA -keystore KeyStore.jks -keysize 2048
+keytool -certreq -alias mydomain -keystore KeyStore.jks -file mydomain.csr
+jarsigner -verbose -keystore KeyStore.jks App.apk mydomain
+```
+
+Signed, perfect. We can try installing it again:
+
+```
+adb install App.apk
+  adb: failed to install App.apk: Failure [INSTALL_FAILED_UPDATE_INCOMPATIBLE: 
+  Package com.crack.me signatures do not match the previously installed version; 
+  ignoring!]
+```
+
+Hmm, ok let's delete the last installed Version. After deletion it worked fine.
+
+***Tipp:***<br/>
+Install the APK-file manually using `adb install app.apk` it gives you better 
+error messages, than installing it by drag&drop.
