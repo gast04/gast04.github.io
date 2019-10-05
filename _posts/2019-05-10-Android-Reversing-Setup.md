@@ -4,6 +4,7 @@ Design decisions:
 * everything was done via an Emulator<br/>
 
 <br/>
+
 ___
 # Downloading APK Files
 
@@ -23,6 +24,7 @@ we just paste in the URL from Google Play and download the APK file.
 Now that we have the APK-File we can start analysing it :)
 
 <br/>
+
 ___
 # Analysis without Reversing the APK
 
@@ -87,6 +89,7 @@ start the emulator using:
 `PathTo/emulator.exe -avd AVDRoot -writable-system -selinux permissive`
 
 <br/>
+
 ___
 # Deep look into the APK
 
@@ -119,6 +122,7 @@ the Manifest file by searching for 'android:debuggable' which should be set
 to false for all released applications.
 
 <br/>
+
 ___
 # Frida
 
@@ -142,6 +146,7 @@ frida -U \<pid\>   attach to running process
 frida -D \<id\>    execute on specific device
 
 <br/>
+
 ___
 # Some Commands / Notes
 
@@ -174,6 +179,8 @@ xx-xx xx:xx:xx.xxx  8193  8193 F Frida   : Unable to locate the Android linker; 
 
 **Further Usefull Ressources**
 [OWASP-Mobile-Security-Guide](https://www.owasp.org/index.php/OWASP_Mobile_Security_Testing_Guide)
+
+<br/>
 
 ___
 # Patching APK-Files
