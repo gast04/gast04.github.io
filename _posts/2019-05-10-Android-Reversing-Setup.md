@@ -185,6 +185,8 @@ xx-xx xx:xx:xx.xxx  8193  8193 F Frida   : Unable to locate the Android linker; 
 ___
 # Patching APK-Files
 
+(This was done on a Ubuntu 18-04)<br/>
+
 Patching APK files is not as straigthforward as patching Linux/Windows binaries. I really like `apktool` 
 here to do this for me. We first unpack/unzip the APK File.
 
@@ -229,3 +231,6 @@ Hmm, ok let's delete the last installed Version. After deletion it worked fine.
 ***Tipp:***<br/>
 Install the APK-file manually using `adb install app.apk` it gives you better 
 error messages, than installing it by drag&drop.
+
+The emulator was started using.
+`./emulator -avd Pixel_API_25 -netdelay none -netspeed full -writable-system -selinux permissive`
