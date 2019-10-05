@@ -143,6 +143,9 @@ make fridaserver executeable and start
 for frida server download [use](https://github.com/frida/frida/releases) 
 the emulator is x86 so choose this server version as well!
 
+Add "%LOCALAPPDATA%\Android\sdk\platform-tools" to Environment Variables to make it 
+availbe in cmd, without starting by path (same for emulator, if wanted)
+
 ***NOTE:***<br/>
 Frida needs time to support new Android Versions, so don't use the always the newest, 
 I noted that 10.2019 when I tried with API 29 but it was not support yet, you will get an 
@@ -151,16 +154,13 @@ error like:
 generic_x86:/data/local/tmp # ./frida-server-android 
   Aborted
 ```
+
 An instant abort will happen, and if you look into `adb logcat` it will tell you that it
 could not find the Android linker, as shown below.
+
 ```
 xx-xx xx:xx:xx.xxx  8193  8193 F Frida   : Unable to locate the Android linker; please file a bug
 ```
 
-Add "%LOCALAPPDATA%\Android\sdk\platform-tools" to Environment Variables to make it 
-availbe in cmd, without starting by path (same for emulator, if wanted)
-
-**Usefull Ressources**
+**Further Usefull Ressources**
 [OWASP-Mobile-Security-Guide](https://www.owasp.org/index.php/OWASP_Mobile_Security_Testing_Guide)
-
-
