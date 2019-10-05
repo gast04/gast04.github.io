@@ -91,6 +91,11 @@ In my mind a good point to start is using the MobFS - Framework, it comes
 with lot of Features, and since it provides a docker image, it is super easy
 to start.
 
+***Note to MobFS:***<br/>
+What confused by the first usage was, that downloading the Decompiled Java Source, I got an
+empty folder, but actually there was just a hidden `.MobFS` folder in it, which contained 
+the sources in a bunch of subfolders.
+
 To do dynamic analysis as well, we have to install it on the Host.
 Once the installation and static analysis has finshed (which may take a while)
 we can easily inspect the results in the web interface.
@@ -140,10 +145,10 @@ frida -D \<id\>    execute on specific device
 `adb pull /data/data/app/file .`
 
 make fridaserver executeable and start
-for frida server download [use](https://github.com/frida/frida/releases) 
+for frida server download [use](https://github.com/frida/frida/releases)
 the emulator is x86 so choose this server version as well!
 
-Add "%LOCALAPPDATA%\Android\sdk\platform-tools" to Environment Variables to make it 
+Add "%LOCALAPPDATA%\Android\sdk\platform-tools" to Environment Variables to make it
 availbe in cmd, without starting by path (same for emulator, if wanted)
 
 ***NOTE:***<br/>
