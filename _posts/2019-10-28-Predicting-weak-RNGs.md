@@ -124,7 +124,7 @@ I used a simple network, after all neural networks are pattern detector so I tri
 model with the structure `200->200->100->1`. 200 inputs fully connected leading to one output, if there
 is a pattern in the RNG this will hopefully detect it. 
 
-I was amazed as I got immediatelly a zero error at the training set. 
+I was amazed as I got immediatelly almost zero error at the training set. 
 ```
 Epoch 1/40
 10000/10000 [==============================] - 0s 43us/step - loss: 0.2611
@@ -157,14 +157,14 @@ Epoch 14/40
 ```
 
 I thought about overfitting so I increased the training data to 10.000 sequences and labels, still I got an error of Zero, this doesn't 
-look like overfitting anymore for me.
+look like overfitting anymore for me. Of course I verified using validation and test sets.
 
 I tested it in fighting dragons, the weird things was, still at max two dead dragons...
 
 That took me a while, until I noticed that it is also random if the Hero is hitting or not, this
-means that I have to predict the next to elements of a given sequence. I generated new sequences and labels
+means that I have to predict the next ***two*** elements of a given sequence. I generated new sequences and labels
 and was hoping that I still get a zero error, and I really did. I used the following pattern for
-my attack scheme now. The Hero is attacking first so the first element of the prediction revers to the
+my attack scheme. The Hero is attacking first so the first element of the prediction revers to the
 hero and the second element to the dragon. We get the following table:
 
 | Hero pred.| Dragon pred. | Description |  
@@ -178,12 +178,12 @@ We wanna avoid every hit from the dragon so we use in all cases the shield excep
 when the Hero will hit and the Dragon will miss. Means only in one out of four we will attack 
 and make damage.
 
-I implemented it and could kill a dragon without getting any damage. (Verbose output of my Bot, cleaned output)
+I implemented it and could kill a dragon without getting any damage. (Verbose output of my Bot, cleaned)
 
-DH - Dragon Health
-HH - Hero Health
-DA - Dragon Attack
-HA - Hero Attack
+DH - Dragon Health <\br>
+HH - Hero Health <\br>
+DA - Dragon Attack <\br>
+HA - Hero Attack <\br>
 ```
 BLACK DRAGON arrived
 DH: -1, HH: -1  | DA: hit, HA: shield
