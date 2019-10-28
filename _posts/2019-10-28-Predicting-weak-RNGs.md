@@ -56,7 +56,7 @@ SELECT AN OPTION:
 YOUR CHOICE: 
 ```
 
-We decide to figth the dragon.
+We decide to fight the dragon.
 ```
 YOU ATTACK THE BEIGE DRAGON.
 
@@ -69,7 +69,7 @@ YOUR CHOICE:
 
 We can attack or use the shield. Attacking might hit the dragon or we miss, at the same time the dragon attacks
 us and migth hit or miss. The shield is blocking all attacks from the dragon. Cheating is giving us 1000% of 
-health, but this is not allowed, otherwise we will never get the flag. 
+health. 
 
 An attack migth look like
 ```
@@ -91,7 +91,7 @@ the task. We have now two choices either we reverse engineer the program or we a
 random number generator.
 
 I am a fan of reverse engineering, but this was new to me and I was looking for the correct punch card format
-but I gave up that part quite soon. I was more interested if it is possible to build a Neural Network which 
+but I gave up quite soon. I was more interested if it is possible to build a Neural Network which 
 is able to predict the next action of the Dragon, it was a custom CPU so it migth be possible that the 
 number generator is weak and a Neural Net is able to do that.
 
@@ -124,9 +124,40 @@ I used a simple network, after all neural networks are pattern detector so I tri
 model with the structure `200->200->100->1`. 200 inputs fully connected leading to one output, if there
 is a pattern in the RNG this will hopefully detect it. 
 
-I was amazed as I got immediatelly a zero error at the training set. I thought about overfitting so I 
-increased the training data to 10.000 sequences and labels, still I got an error of Zero, this doesn't 
-look like overfitting for me anymore.
+I was amazed as I got immediatelly a zero error at the training set. 
+```
+Epoch 1/40
+10000/10000 [==============================] - 0s 43us/step - loss: 0.2611
+Epoch 2/40
+10000/10000 [==============================] - 0s 38us/step - loss: 0.1776
+Epoch 3/40
+10000/10000 [==============================] - 0s 39us/step - loss: 0.0084
+Epoch 4/40
+10000/10000 [==============================] - 0s 39us/step - loss: 0.0033
+Epoch 5/40
+10000/10000 [==============================] - 0s 34us/step - loss: 0.0020
+Epoch 6/40
+10000/10000 [==============================] - 0s 35us/step - loss: 0.0014
+Epoch 7/40
+10000/10000 [==============================] - 0s 35us/step - loss: 0.0010
+Epoch 8/40
+10000/10000 [==============================] - 0s 38us/step - loss: 0.0011
+Epoch 9/40
+10000/10000 [==============================] - 0s 39us/step - loss: 7.8170e-04
+Epoch 10/40
+10000/10000 [==============================] - 0s 38us/step - loss: 9.4872e-04
+Epoch 11/40
+10000/10000 [==============================] - 0s 38us/step - loss: 7.3191e-04
+Epoch 12/40
+10000/10000 [==============================] - 0s 38us/step - loss: 4.5810e-04
+Epoch 13/40
+10000/10000 [==============================] - 0s 38us/step - loss: 4.2468e-04
+Epoch 14/40
+10000/10000 [==============================] - 0s 38us/step - loss: 3.9225e-04
+```
+
+I thought about overfitting so I increased the training data to 10.000 sequences and labels, still I got an error of Zero, this doesn't 
+look like overfitting anymore for me.
 
 I tested it in fighting dragons, the weird things was, still at max two dead dragons...
 
