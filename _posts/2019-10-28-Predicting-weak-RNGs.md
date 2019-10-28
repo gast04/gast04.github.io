@@ -164,7 +164,7 @@ I tested it in fighting dragons, the weird things was, still at max two dead dra
 That took me a while, until I noticed that it is also random if the Hero is hitting or not, this
 means that I have to predict the next ***two*** elements of a given sequence. I generated new sequences and labels
 and was hoping that I still get a zero error, and I really did. I used the following pattern for
-my attack scheme. The Hero is attacking first so the first element of the prediction revers to the
+my attack scheme. The Hero is attacking first so the first element of the prediction refers to the
 hero and the second element to the dragon. We get the following table:
 
 | Hero pred.| Dragon pred. | Description |  
