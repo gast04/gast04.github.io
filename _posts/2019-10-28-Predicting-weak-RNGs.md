@@ -186,43 +186,43 @@ DA - Dragon Attack <br/>
 HA - Hero Attack <br/>
 ```
 BLACK DRAGON arrived
-DH: -1, HH: -1  | DA: hit, HA: shield
-DH: 94%, HH: -1 | DA: missed, HA: hit
-DH: 94%, HH: -1 | DA: hit, HA: shield
-DH: 81%, HH: -1 | DA: missed, HA: hit
-DH: 74%, HH: -1 | DA: missed, HA: hit
-DH: 66%, HH: -1 | DA: missed, HA: hit
-DH: 66%, HH: -1 | DA: missed, HA: shield
-DH: 52%, HH: -1 | DA: missed, HA: hit
-DH: 48%, HH: -1 | DA: missed, HA: hit
-DH: 48%, HH: -1 | DA: hit, HA: shield
-DH: 48%, HH: -1 | DA: missed, HA: shield
-DH: 42%, HH: -1 | DA: missed, HA: hit
-DH: 42%, HH: -1 | DA: hit, HA: shield
-DH: 42%, HH: -1 | DA: missed, HA: shield
-DH: 26%, HH: -1 | DA: missed, HA: hit
-DH: 26%, HH: -1 | DA: missed, HA: shield
-DH: 26%, HH: -1 | DA: missed, HA: shield
-DH: 26%, HH: -1 | DA: missed, HA: shield
-DH: 26%, HH: -1 | DA: hit, HA: shield
-DH: 26%, HH: -1 | DA: hit, HA: shield
-DH: 26%, HH: -1 | DA: missed, HA: shield
-DH: 26%, HH: -1 | DA: missed, HA: shield
-DH: 26%, HH: -1 | DA: hit, HA: shield
-DH: 26%, HH: -1 | DA: hit, HA: shield
-DH: 26%, HH: -1 | DA: missed, HA: shield
-DH: 26%, HH: -1 | DA: hit, HA: shield
-DH: 26%, HH: -1 | DA: hit, HA: shield
-DH: 26%, HH: -1 | DA: hit, HA: shield
-DH: 26%, HH: -1 | DA: hit, HA: shield
-DH: 26%, HH: -1 | DA: missed, HA: shield
-DH: 26%, HH: -1 | DA: missed, HA: shield
-DH: 26%, HH: -1 | DA: hit, HA: shield
-DH: 26%, HH: -1 | DA: missed, HA: shield
-DH: 26%, HH: -1 | DA: hit, HA: shield
-DH: 26%, HH: -1 | DA: missed, HA: shield
-DH: 11%, HH: -1 | DA: missed, HA: hit
-DH: 11%, HH: -1 | DA: missed, HA: shield
+DH: 100%, HH: 100% | DA: hit, HA: shield
+DH:  94%, HH: 100% | DA: missed, HA: hit
+DH:  94%, HH: 100% | DA: hit, HA: shield
+DH:  81%, HH: 100% | DA: missed, HA: hit
+DH:  74%, HH: 100% | DA: missed, HA: hit
+DH:  66%, HH: 100% | DA: missed, HA: hit
+DH:  66%, HH: 100% | DA: missed, HA: shield
+DH:  52%, HH: 100% | DA: missed, HA: hit
+DH:  48%, HH: 100% | DA: missed, HA: hit
+DH:  48%, HH: 100% | DA: hit, HA: shield
+DH:  48%, HH: 100% | DA: missed, HA: shield
+DH:  42%, HH: 100% | DA: missed, HA: hit
+DH:  42%, HH: 100% | DA: hit, HA: shield
+DH:  42%, HH: 100% | DA: missed, HA: shield
+DH:  26%, HH: 100% | DA: missed, HA: hit
+DH:  26%, HH: 100% | DA: missed, HA: shield
+DH:  26%, HH: 100% | DA: missed, HA: shield
+DH:  26%, HH: 100% | DA: missed, HA: shield
+DH:  26%, HH: 100% | DA: hit, HA: shield
+DH:  26%, HH: 100% | DA: hit, HA: shield
+DH:  26%, HH: 100% | DA: missed, HA: shield
+DH:  26%, HH: 100% | DA: missed, HA: shield
+DH:  26%, HH: 100% | DA: hit, HA: shield
+DH:  26%, HH: 100% | DA: hit, HA: shield
+DH:  26%, HH: 100% | DA: missed, HA: shield
+DH:  26%, HH: 100% | DA: hit, HA: shield
+DH:  26%, HH: 100% | DA: hit, HA: shield
+DH:  26%, HH: 100% | DA: hit, HA: shield
+DH:  26%, HH: 100% | DA: hit, HA: shield
+DH:  26%, HH: 100% | DA: missed, HA: shield
+DH:  26%, HH: 100% | DA: missed, HA: shield
+DH:  26%, HH: 100% | DA: hit, HA: shield
+DH:  26%, HH: 100% | DA: missed, HA: shield
+DH:  26%, HH: 100% | DA: hit, HA: shield
+DH:  26%, HH: 100% | DA: missed, HA: shield
+DH:  11%, HH: 100% | DA: missed, HA: hit
+DH:   5%, HH: 100% | DA: missed, HA: shield
 Dragon killed
 ```
 
@@ -236,7 +236,6 @@ YOU ENTER THE TAVERN AND APPROACH VALIS.
 - FLA... THE FLAG... I'VE DONE EVERYTHING... PLEASE...
 - EH.  FINE.  HERE IT IS: flag{the-flag-goes-here}
 ```
-
 ___
 # Code
 The organizers published the challenge [code](https://github.com/koriakin/cpuadventure).
