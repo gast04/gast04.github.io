@@ -180,10 +180,10 @@ and make damage.
 
 I implemented it and could kill a dragon without getting any damage. (Verbose output of my Bot, cleaned)
 
-DH - Dragon Health </br>
-HH - Hero Health </br>
-DA - Dragon Attack </br>
-HA - Hero Attack </br>
+DH - Dragon Health <br/>
+HH - Hero Health <br/>
+DA - Dragon Attack <br/>
+HA - Hero Attack <br/>
 ```
 BLACK DRAGON arrived
 DH: -1, HH: -1  | DA: hit, HA: shield
