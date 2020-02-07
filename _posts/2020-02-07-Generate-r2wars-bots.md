@@ -14,7 +14,7 @@ and compiled with [rasm2](https://r2wiki.readthedocs.io/en/latest/tools/rasm2/).
 ___
 # Idea
 
-The code must be compilable with rasm2. To avoid compile errors, I predefined instructions. This limits the possible generated bots but speeds up generation. The emulation happens with ESIL using [r2pipe](https://github.com/radareorg/radare2-r2pipe). Emulation was done without an opponent, only executed instructions and writes mater.
+The code must be compilable with rasm2. To avoid compile errors, I predefined instructions. This limits the possible generated bots but speeds up generation. The emulation happens with ESIL using [r2pipe](https://github.com/radareorg/radare2-r2pipe). Emulation was done without an opponent, only executed instructions and writes matter.
 
 My first steps: 
 * generate x random bots which have y instructions
@@ -60,7 +60,7 @@ inc edx
 
 An endless loop doing nothing. The executed instruction value in the fitness function was way too dominant in all my bots. Rarely there was a bot doing any damage at all even after several (~40) generations.
 
-Once a bot found an endless loop, it stayed in it, and not mutation could improve it.
+Once a bot found an endless loop, it stayed in it, and no mutation could improve it.
 
 Mutation steps:
 * combine bots, split two bots at random and swap there parts (turned out to be awful)
@@ -73,7 +73,7 @@ The combine bots mutation was just way too aggressive and just broke the evoluti
 ___
 # Approach One
 
-I fixed the previous mistakes. The bot size was always 20 instructions in the beginning. The cutting of the bots was removed. Splitting and combining stayed in the mutations process. I adopted the fitness function to ignore the executed instructions and only count the damage. This makes sense since more damage requires more instructions to execute.
+I fixed the previous mistakes. The bot size was always 20 instructions in the beginning. The cutting of the bots was removed. Splitting and combining stayed in the mutation process. I adopted the fitness function to ignore the executed instructions and only count the damage. This makes sense since more damage requires more instructions to execute.
 
 I also added a few more instructions: 
 ```Python
@@ -156,3 +156,8 @@ Many more optimizations can be applied.
 
 I wanted to test if the idea works and I can conclude it works :)
 
+
+Future Work, weight instructions which cause damage or keep the control flow alive, 
+allow also only the change of the random values in the intructions and not just replacing 
+the whole instruction. Maybe also work on byte level and flip single bits. This would remove the 
+instruction encoding complexity but will lead to compile errors. Defenitely there can be done far more.
