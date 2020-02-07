@@ -154,5 +154,5 @@ But these instructions have to be encoded in a way to allow simple handling. Als
 more generations will for sure increase the damage of the bot, thats a time factor.
 Many more optimizations can be applied. 
 
-I wanted to test if the overall idea works and I can conclude it works :)
+I wanted to test if the idea works and I can conclude it works :)
 
