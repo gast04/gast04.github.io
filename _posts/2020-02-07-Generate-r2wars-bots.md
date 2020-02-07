@@ -118,7 +118,7 @@ pushad edi
 cmp ecx, 0x1fc
 ```
 
-This is pretty impressive in my mind. I run this bot again the bots from the competition: 
+This is pretty impressive in my mind. I run this bot against the bots from the competition: 
 (GA-bot.x86-32)
 ```
 1 dux-bot2.x86-32 13.00 (13-0-1 with 26 overall).
@@ -144,10 +144,7 @@ Not bad 8/15. It even won 6 battles.
 ___
 # Approach Two
 
-I removed the crossing between bots, and only applied random instruction change
-in the mutation phase. The final bot I got had a damage score of 2549. Even 
-stronger than the previous one. 
-
+I removed the crossing between bots, and only applied random instruction change in the mutation phase. The final bot I got had a damage score of 2549. Even stronger than the previous one. In the competition it placed slightly worse than the previous bot.
 
 ___
 # Conclusion
