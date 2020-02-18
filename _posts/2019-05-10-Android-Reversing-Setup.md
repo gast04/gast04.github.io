@@ -219,6 +219,9 @@ jarsigner -verbose -keystore KeyStore.jks App.apk mydomain
 
 Signed, perfect. We can try installing it again:
 
+___
+# Install/Uninstall APK-Files
+
 ```
 adb install App.apk
   adb: failed to install App.apk: Failure [INSTALL_FAILED_UPDATE_INCOMPATIBLE: 
@@ -229,6 +232,18 @@ adb install App.apk
 Hmm, ok let's delete the last installed Version. Delete it by holding it in the
 emulator and dragging it to the bin or by `adb uninstall com.app.me`, here the
 package name has to match otherwise it will not find it.
+
+```
+adb install App.apk
+  adb: failed to install picsart.apk: Failure [INSTALL_FAILED_NO_MATCHING_ABIS: 
+  Failed to extract native libraries, res=-113]
+```
+
+This error happens when we try to install an APK which uses native libraries
+and it does provide the one for my architecture. For example, Android phones use
+ARM if I run it on my emulator which needs a Intel x86-64 compiled library it
+will not work if it is not provided.
+
 
 ***Tipp:***<br/>
 Install the APK-file manually using `adb install app.apk` it gives you better 
