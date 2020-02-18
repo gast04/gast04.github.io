@@ -226,7 +226,9 @@ adb install App.apk
   ignoring!]
 ```
 
-Hmm, ok let's delete the last installed Version. After deletion it worked fine.
+Hmm, ok let's delete the last installed Version. Delete it by holding it in the
+emulator and dragging it to the bin or by `adb uninstall com.app.me`, here the
+package name has to match otherwise it will not find it.
 
 ***Tipp:***<br/>
 Install the APK-file manually using `adb install app.apk` it gives you better 
