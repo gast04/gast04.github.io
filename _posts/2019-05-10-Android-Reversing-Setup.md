@@ -244,6 +244,9 @@ and it does provide the one for my architecture. For example, Android phones use
 ARM if I run it on my emulator which needs a Intel x86-64 compiled library it
 will not work if it is not provided.
 
+To fix this error we have to use an emulator using the ARM ABI, this can be 
+choosen in the AVD Manager from Android Studio. Emulating an ARM image on a Intel
+CPU is really slow, patients is neeeeded.
 
 ***Tipp:***<br/>
 Install the APK-file manually using `adb install app.apk` it gives you better 
