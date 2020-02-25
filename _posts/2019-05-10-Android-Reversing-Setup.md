@@ -110,7 +110,7 @@ Besides providing some really nice insights about the APK it also decompiles
 the jar Files, means we don't have to install dex2jar on our own.
 
 To check if the App allows debugging we can use `jdb`(java debugger tool), first we need the
-PID of the app we want to debug we can get that by `adb jdwp` or using
+PID of the app we want to debug we can get that by `adb jdwp`, `adb shell ps` or using
 `frida-ps -U`. We have to add port forwarding now and can later connect 
 to the forwarded port. 
 
