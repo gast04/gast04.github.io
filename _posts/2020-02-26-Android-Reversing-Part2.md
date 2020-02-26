@@ -34,7 +34,7 @@ To debug the app in an emulator now we have to go into `Settings->System->Develo
 select a debug app, and we also have to set the `Wait for debugger` flag. The path depends on the 
 Android version but it's always called Developer Options.
 
-If we start the app now it will wait for an debugger.
+If we start the app now it will wait for a debugger.
 
 <br/>
 
