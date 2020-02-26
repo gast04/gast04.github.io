@@ -36,6 +36,8 @@ Android version but it's always called Developer Options.
 
 If we start the app now it will wait for an debugger.
 
+<br/>
+
 ___
 # Drozer
 
@@ -47,6 +49,8 @@ the emulator/device. On our host we install drozer by `pip install drozer`. Afte
 the host system to the agent by `drozer console connect`. There are many modules which can be used 
 the most interesting I found so far is the `attacksurface`. This returns a nice list of exposed attack vectors.
 
+
+<br/>
 ___
 # Connect Debugger to waiting App
 
