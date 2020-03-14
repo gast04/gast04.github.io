@@ -57,8 +57,9 @@ ___
 Here I did not really find a method which satisfied my needs completely, I tried `jdb`
 and other stuff but everything seemed unecessary complex... My final approach is now to 
 use [smalidea](https://github.com/JesusFreke/smalidea), this seems the best and easiest 
-way to me. Simply install the plugin and set breakpoints directly in the smali code.
-Make sure the Apk is debugable, after that just hit the `Attach Debugger to Android Process`-Button and have fun.  
+way to me. Simply install the plugin and set breakpoints directly in the smali code after
+loaded via `Profile and Debug APK`. Make sure the Apk is debugable, just hit the 
+`Attach Debugger to Android Process`-Button and have fun.
 
 <br/>
 
