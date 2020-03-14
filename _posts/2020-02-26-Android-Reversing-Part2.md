@@ -71,7 +71,7 @@ gdbserver tcp:<localport> --attach <pid>
 ```
 
 Before we can connect to it from our host system we have to forward the localport from 
-android to a remote(devive) port.
+android to a remote(device) port.
 
 ```
 adb forward tcp:<remoteport> tcp:<localport>
