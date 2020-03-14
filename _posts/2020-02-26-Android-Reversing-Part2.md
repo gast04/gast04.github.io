@@ -111,10 +111,12 @@ is from the entry function. To calculate an offset to a Java exportet function w
 ` loaded_addr - entry_offset + function_offset`. We can set a breakpoint on all exported function and 
 after single step through it using gdb.
 
+<br/>
+
 ___
 # Notes
 
 For creating native applications we have to add the NDK path to the `local.properties` build file from
-Android Studio. `ndk.dir=/PathToNDK/ndk/21.0.6113669`
-Without it will not build and show an error that it could not find the NDK and please install it even
+Android Studio. `ndk.dir=/PathToNDK/ndk/21.0.6113669`. 
+Without, it will not build and show an error that it could not find the NDK and please install it even
 it is already installed using the SDK Manager.
