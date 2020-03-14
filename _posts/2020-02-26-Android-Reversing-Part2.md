@@ -49,17 +49,18 @@ the emulator/device. On our host we install drozer by `pip install drozer`. Afte
 the host system to the agent by `drozer console connect`. There are many modules which can be used 
 the most interesting I found so far is the `attacksurface`. This returns a nice list of exposed attack vectors.
 
-
 <br/>
 
 ___
 # Connect Debugger to waiting App
 
-TODO
-
+Here I did not really find a method which satisfied my needs completely, I tried `jdb`
+and other stuff but everything seemed unecessary complex... My final approach is now to 
+use [smalidea](https://github.com/JesusFreke/smalidea), this seems the best and easiest 
+way to me. Simply install the plugin and set breakpoints directly in the smali code.
+Make sure the Apk is debugable, after that just hit the `Attach Debugger to Android Process`-Button and have fun.  
 
 <br/>
-
 
 ___
 # Debug using gdbserver
@@ -82,5 +83,3 @@ Now we have everything setup to connect `gdb` or `radare2`.
 ```
 r2 -d gdb://127.0.0.1:<remoteport>
 ```
-
-
