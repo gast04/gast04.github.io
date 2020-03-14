@@ -62,4 +62,14 @@ TODO
 
 
 ___
-# TODO rest...
+# Debug using gdbserver
+
+Debugging native applications can be done by using gdbserver on the android phone.
+```gdbserver tcp:<localport> --attach <pid>```
+Before we can connect to it from our host system we have to forward the localport from 
+android to a remote(devive) port.
+```adb forward tcp:<remoteport> tcp:<localport>```
+Now we have everything setup to connect `gdb` or `radare2`. 
+```r2 -d gdb://127.0.0.1:<remoteport>```
+
+
