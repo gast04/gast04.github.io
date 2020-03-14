@@ -83,4 +83,30 @@ Now we have everything setup to connect `gdb` or `radare2`.
 
 ```
 r2 -d gdb://127.0.0.1:<remoteport>
+
+gdb -q
+# target remote localhost:<remoteport>
 ```
+
+Debugging using radare did not work as expected, so I am mainly using gdb.
+`show shared` to get the entry address of the custom library. I had an IDA instance
+open of the same library to calculate the offsets, maybe there is a better way
+but it works good enough for me. The pointer
+
+```
+...
+0xe3de4440  0xe3deb994  Yes (*)     target:/vendor/lib/egl/libGLESv1_CM_emulation.so
+0xe3da6dd0  0xe3db16f4  Yes (*)     target:/vendor/lib/egl/libGLESv2_emulation.so
+0xe3d4d640  0xe3d66825  Yes (*)     target:/system/lib/libcompiler_rt.so
+0xe3d0c850  0xe3d0d059  Yes (*)     target:/system/lib/libwebviewchromium_loader.so
+0xd6ad3000  0xd6ad3000  Yes (*)     target:/data/app/com.example.nativedebugging-4Fbxl5HAxcExc7XuzHmEIw==/oat/x86/base.odex
+0xd698ec40  0xd69ae1b0  Yes (*)     target:/data/app/com.example.nativedebugging-4Fbxl5HAxcExc7XuzHmEIw==/lib/x86/libnative-lib.so
+0xd62cb9f0  0xd62cff45  Yes (*)     target:/vendor/lib/hw/gralloc.ranchu.so
+...
+```
+
+To set library hooks important for us is the libnative-lib.so, this is the library used by the app, we 
+can see this because of the path, the other shared libraries are from the system. The start address
+is from the entry function. To calculate an offset to a Java exportet function we would need 
+` loaded_addr - entry_offset + function_offset`. We can set a breakpoint on all exported function and 
+after single step through it using gdb.
