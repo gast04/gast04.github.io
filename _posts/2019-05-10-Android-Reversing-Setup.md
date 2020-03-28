@@ -25,6 +25,25 @@ Now that we have the APK-File we can start analysing it :)
 
 <br/>
 
+**Update** (28.3.2020) 
+
+Choosing "APK Downloader" works, but I found better options in the meantime.
+For example using [ApkPure](https://apkpure.com/), but here there is still the 
+trouble that you have it for certain architectures. If you run an emulator 
+this will most of the time not work. So what I am using most now is an google 
+image emulator, download the apk I want and after pull it from the device.
+
+```
+adb shell pm list packages
+adb shell pm path <package-name>
+adb pull <path>
+```
+
+If you dont have access to the folder it will not work, but most of the time
+it does.
+
+<br/>
+
 ___
 # Analysis without Reversing the APK
 
@@ -62,9 +81,9 @@ we can install it.
 > It's important to take care which System Target you use for the AVD since a Google Play
 > System Image will not allow you to get a root shell using `adb shell`, it has several
 > restrictions and does not allow to run the adbd as root. 
-> The Google APIs Image does allow you a root shell by the following commands:
-> > \>\_ adb root<br/>
-> > \>\_ adb shell
+> The Google APIs Image does allow you a root shell by the following commands:<br/>
+> \>\_ adb root<br/>
+> \>\_ adb shell
 
 > The difference between these two images is that the play Image has the Google Play
 > Store already installed and you can download Apps, but since we analyse only a single
