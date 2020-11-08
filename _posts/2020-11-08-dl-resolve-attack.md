@@ -53,6 +53,7 @@ some good resources available on line on that attack:
 * https://www.rootnetsec.com/ropemporium-ret2csu/
 * https://1ce0ear.github.io/2017/10/20/return-to-dl/
 * https://ddaa.tw/hitcon_pwn_200_blinkroot.html
+<br/>
 
 ___
 # Tooling
@@ -65,6 +66,7 @@ r2 startup command. (I have plans on doing a PR on pwntools about this patch.)
 For the binary analysis I am using IDA 7.5, its just easy to read out 
 all the offsets from it, but as this binary is so small every other 
 tool will be fine too.
+<br/>
 
 ___
 # return-to-dl-resolve ?
@@ -84,7 +86,6 @@ We need:
 * setup arguments for execvp call
 * call dlresolve
 * Hopefully having a shell at this point :)
-
 <br/>
 
 ___
@@ -126,7 +127,6 @@ way to set the rbp to a reasonable address on the stack, this means we loose the
 rest of our `ROPchain`. Of course what we can do is, set the `rsp` to the `bss`
 segment and write the rest of our `ROPchain` to the `bss` segment. But I 
 considered this as unecessary work, so I used a different approach `ret2csu`.
-
 <br/>
 
 ___
