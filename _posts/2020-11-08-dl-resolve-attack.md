@@ -1,4 +1,3 @@
-
 ___
 # Intro
 
@@ -31,6 +30,7 @@ Furthermore, we see the compile command and we know there is no stack canary
 which means the binary is exploitable.
 
 The Rest of this blog I will describe my two attempts of how I solved it.
+
 <br/>
 
 ___
@@ -53,19 +53,21 @@ some good resources available on line on that attack:
 * https://www.rootnetsec.com/ropemporium-ret2csu/
 * https://1ce0ear.github.io/2017/10/20/return-to-dl/
 * https://ddaa.tw/hitcon_pwn_200_blinkroot.html
+
 <br/>
 
 ___
 # Tooling
 
 For the exploit I use `python` with `pwntools`. I have a patched version
-of `pwntools` which spawn `radare2` instead of `gdb` by calling 
+of `pwntools` which spawn `radare2` instead of `gdb` by calling
 `gdb.attach(p, r2cmd="db {}".format(hex(offset)))` and I can pass it a
 r2 startup command. (I have plans on doing a PR on pwntools about this patch.)
 
-For the binary analysis I am using IDA 7.5, its just easy to read out 
-all the offsets from it, but as this binary is so small every other 
+For the binary analysis I am using IDA 7.5, its just easy to read out
+all the offsets from it, but as this binary is so small every other
 tool will be fine too.
+
 <br/>
 
 ___
@@ -86,6 +88,7 @@ We need:
 * setup arguments for execvp call
 * call dlresolve
 * Hopefully having a shell at this point :)
+
 <br/>
 
 ___
@@ -127,6 +130,7 @@ way to set the rbp to a reasonable address on the stack, this means we loose the
 rest of our `ROPchain`. Of course what we can do is, set the `rsp` to the `bss`
 segment and write the rest of our `ROPchain` to the `bss` segment. But I 
 considered this as unecessary work, so I used a different approach `ret2csu`.
+
 <br/>
 
 ___
@@ -190,6 +194,7 @@ chain_read += b"D"*8                    # to counter (add rsp,8) after call
 
 This will call `read` and we can pass our forged structs to it. After the
 read we continue and call the resolver.
+
 <br/>
 
 ___
@@ -290,6 +295,7 @@ chain_structs += b"X"*17              # end of forged struct
 
 It's important to note that all addresses have to be 24byte aligned, as those
 entries are 24bytes in size.
+
 <br/>
 
 ___
@@ -320,6 +326,7 @@ This function access the entries of our forged structs and calls `_dl_lookup_sym
 which is then resolving our function.
 
 Calling the completed exploit `exp_version_3.py` returns a shell.
+
 <br/>
 
 ___
