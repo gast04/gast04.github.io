@@ -36,7 +36,7 @@ The Rest of this blog I will describe my two attempts of how I solved it.
 ___
 # Background Information
 
-You might think, why we just do `return2libc`? and I thought that in the first
+You might think, why we just dont do `return2libc`? and I thought that in the first
 moment as well but for a `return2libc` attack you always need a leak, like in
 this example the resolved address of `read`, then calculate the base address
 of the libc and then calculate the address of `system` or `exevp` or wathever.
@@ -47,7 +47,7 @@ resolved. We could of course setup a write system call using a `ROPchain` but
 this binary is so small that there are simply not enough gadgets.
 
 So the only attack I could come up, was `return2dlresolve`. There are already
-some good resources available on line on that attack:
+some good resources available regarding this attack:
 
 * https://gist.github.com/ricardo2197/8c7f6f5b8950ed6771c1cd3a116f7e62
 * https://www.rootnetsec.com/ropemporium-ret2csu/
@@ -60,7 +60,7 @@ ___
 # Tooling
 
 For the exploit I use `python` with `pwntools`. I have a patched version
-of `pwntools` which spawn `radare2` instead of `gdb` by calling
+of `pwntools` which spawns `radare2` instead of `gdb` by calling
 `gdb.attach(p, r2cmd="db {}".format(hex(offset)))` and I can pass it a
 r2 startup command. (I have plans on doing a PR on pwntools about this patch.)
 
@@ -73,13 +73,13 @@ tool will be fine too.
 ___
 # return-to-dl-resolve ?
 
-This technique is pretty nice as it independent of the used libc version and
+This technique is pretty nice as it is independent of the used libc version and
 it doesnt need a leak, all it requires is a `ROPchain` and a memory location
 where we can write to.
 
 To exploit it we are going to resolve the `execvp` function, we achieve this
 by creating all structs needed by the dynamic linker to resolve this function,
-and after it resolved it will immediatelly call it.
+and after it is resolved it will call it.
 
 We need:
 * forge structs: JMPREL-entry, SYMTAB-entry, STRTAB-entry
@@ -107,15 +107,15 @@ chain_read += p64(MOV_EDI_CALL_READ)    # call read
 chain_read += b"D"*16                   # note end of chain
 ```
 
-`C_AREA` is the address of the `bss` segment which is `0x601030`, even IDA shows
+`C_AREA` is the address of the `bss` segment which is `0x601030`. IDA shows
 that this segment is only 8byte in size, as memory is handled in pages, we have
 a whole page for our structs, which is more than enough.
 
-The two `ROPgadgets` simply setting up the arguments, as it is a 64bit binary
+The two `ROPgadgets` are simply setting up the arguments, as it is a 64bit binary
 the three arguments for read are in the `rdi`,`rsi` and `rdx` registers.
 
-This attempt can be found in `exp_version_1.py`. During debugging I noticed that
-`read` call is this gadget:
+This attempt can be found in `exp_version_1.py`. During debugging I noticed a
+problem, the `read` call has this gadget:
 
 ```
 .text:0000000000400500 E8 EB FE FF FF    call    _read
@@ -123,12 +123,12 @@ This attempt can be found in `exp_version_1.py`. During debugging I noticed that
 .text:0000000000400506 C3                retn
 ```
 
-This contains a problem, the `leave` instruction restores the `rsp` from the
+The `leave` instruction restores the `rsp` from the
 `rbp` and we overwrite the `rbp`. Meaning we control where the `ROPchain`
 continues. This is kind of bad, we dont want this power. Because I found no
 way to set the rbp to a reasonable address on the stack, this means we loose the
 rest of our `ROPchain`. Of course what we can do is, set the `rsp` to the `bss`
-segment and write the rest of our `ROPchain` to the `bss` segment. But I 
+segment and write the rest of our `ROPchain` to the `bss` segment. But I
 considered this as unecessary work, so I used a different approach `ret2csu`.
 
 <br/>
@@ -146,7 +146,6 @@ variables and so on, like everything which has to be ready before the `main`
 function is called.
 
 The part of the function we need is:
-
 ```
 .text:0000000000400560 4C 89 FA        mov     rdx, r15
 .text:0000000000400563 4C 89 F6        mov     rsi, r14
@@ -189,18 +188,18 @@ chain_read += p64(0)                    # R13 (has to be zero for stdin read)
 chain_read += p64(C_AREA)               # R14 (ptr to controlable buffer)
 chain_read += p64(0x100)                # R15 (amount we want to read)
 chain_read += p64(CSU_CALL)
-chain_read += b"D"*8                    # to counter (add rsp,8) after call
+chain_read += b"D"*8                    # to counter (add rsp,8) after the call
 ```
 
-This will call `read` and we can pass our forged structs to it. After the
+This will call `read` and we can pass our forged structs into it. After the
 read we continue and call the resolver.
 
 <br/>
 
 ___
-# Createing the Structs
+# Creating the Structs
 
-This is the difficult part now, the resovler needs these structs to correctly
+This is the difficult part I think. The resovler needs these structs to correctly
 resolve `execvp`. This works as follow (a short description as there is plenty
 of material online)
 
@@ -260,7 +259,7 @@ LOAD:0000000000400346   aGmonStart      db '__gmon_start__',0
 to push the correct offset on the stack before calling the resolver. This
 offset has to point to the `bss` segment where our forged `JMPRELentry` lies.
 This entry has to contain valid parameters for the `GOT` offset, we reuse the
-one from read, and the `rel_info`. Where `rel_info` also has to point to the 
+one from read, and the `rel_info`. Where `rel_info` also has to point to the
 `bss` segment to our forged symbol table entry. And last, in the symbol table
 entry we need a valid pointer to the `execvp` offset in the string table.
 
