@@ -319,4 +319,29 @@ is called which saves all the register on the stack and prepares the call to
 This function access the entries of our forged structs and calls `_dl_lookup_symbol_x`
 which is then resolving our function.
 
+Calling the completed exploit `exp_version_3.py` returns a shell.
+<br/>
 
+___
+# Final Notes
+
+This technique was really nice to exploit, and it's a bit advanced I would say.
+The thing which did not work until the end was, that in `_dl_fixup` there exists
+this version check:
+
+```C
+if (l->l_info[VERSYMIDX (DT_VERSYM)] != NULL)
+{
+  const ElfW(Half) *vernum = (const void *) D_PTR (l, l_info[VERSYMIDX (DT_VERSYM)]);
+  ElfW(Half) ndx = vernum[ELFW(R_SYM) (reloc->r_info)] & 0x7fff;
+  version = &l->l_versions[ndx];
+  if (version->hash == 0)
+    version = NULL;
+}
+```
+
+I patched this to be NULL manually in the debugger. I leave this as an exercise
+to the reader on how to pass this check. Because if it is not avoided the
+exploit will die in a SEGFAULT on this `vernum[ELFW(R_SYM) (reloc->r_info)]`
+derefrenciation.
+<br/>
