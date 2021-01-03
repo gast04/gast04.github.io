@@ -15,16 +15,17 @@ bootloader as this is the bootloader signature.
 nasm -f bin -o bloader bloader.asm
 
 # starting with qemu
-qemu-system-i386 -s -S -boot a osSmall
+qemu-system-i386 -s -S -boot c osSmall
 #   -s short for "-gdb tcp::1234"
 #   -S freeze CPU at startup (use 'c' to start execution)
+#   -boot c for booting from hard disk (but we dont get the far here)
+#         just dont use 'n' for PXE boot
 
 # connect debugger
 r2 -c "db 0x7c00" -b 16 -d gdb://127.0.0.1:1234
 #   add breakpoint at 0x7c00 as this is where the bootloader gets loaded
 
 ```
-
 
 
 # Ressources
