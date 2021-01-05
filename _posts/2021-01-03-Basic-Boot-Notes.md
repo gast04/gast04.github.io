@@ -32,6 +32,8 @@ r2 -c "db 0x7c00" -b 16 -d gdb://127.0.0.1:1234
 
 * http://www.osdever.net/tutorials/view/hello-world-boot-loader
 * http://mikeos.sourceforge.net/write-your-own-os.html
+* http://x86asm.net/articles/introduction-to-uefi/index.html
+* http://x86asm.net/articles/uefi-programming-first-steps/
 
 
 <br/>
