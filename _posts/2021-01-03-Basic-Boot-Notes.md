@@ -39,6 +39,12 @@ r2 -c "db 0x7c00" -b 16 -d gdb://127.0.0.1:1234
 <br/>
 
 ___
-# hmmm
+# UEFI Protocols
+
+Not all protocols are defined in the UEFI specification, EDK II for example
+provides many more for easier usage, however when you use them, be aware
+that they might not be available on an UEFI compliant system.
+
+
 
 
