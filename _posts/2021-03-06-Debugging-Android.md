@@ -108,8 +108,8 @@ However we want the `linker` library to be loaded with symbols cause it gives
 us the possibility to set a breakpoint on the symbol `__dl_notify_gdb_of_load`.
 This is hit whenever a library is loaded. So the same as the IDA feature.
 
-To achive a linker load with symbols the directory where `sysroot` points to
-needs to have the same tree structure as on the device/emulator:
+To achieve a linker load with symbols the directory where `sysroot` points to
+needs to have the same structure as on the device/emulator:
 ```
 android_libs
 └── system
@@ -119,13 +119,11 @@ android_libs
 The `sysroot` points to `android_libs` in my case.
 
 Having the symbols of the `linker` loaded we can set a breakpoint on
-`__dl_notify_gdb_of_load` and get notified whenever a library is loaded,
-and set our breakpoints their.
+`__dl_notify_gdb_of_load` and get notified whenever a library is loaded.
 
-Always executing this is quite some work especially we still need to tell
-gdb that we want to remote debug and so on. So to avoid this we can simply
-write all commands in the `.gdbinit` file, this will be executed at gdb
-startup.
+Always executing these commands is quite some work especially we still need to
+tell gdb that we want to remote debug and so on. To avoid this we can simply
+write all commands in the `.gdbinit` file, this is executed at gdb startup.
 
 ```GDB
 # .gdbinit
@@ -163,7 +161,8 @@ continue
 
 Executing a python script whenever the breakpoint triggers gives even more
 flexibility in handling it because of the gdb python interface. A simple
-script which only prints the name of the loaded function can look like this:
+script which only prints the name of the loaded library and its base address
+can look like this:
 
 ```Python
 import gdb
