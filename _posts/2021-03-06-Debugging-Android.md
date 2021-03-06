@@ -8,9 +8,9 @@ application and noticed that the toolset is just horrible? for example:
 * debugger crashes
 * unreliable results
 
-Working now one year as mobile tester, I wanna share my thought of what
+Working now one year as mobile tester, I wanna share my thoughts of what
 I think is the most convienent way of debugging native android code.
-(maybe IOS comes in the next blog)
+(maybe IOS comes next)
 
 The thing is, just dont debug, seriously avoid when possible!
 
@@ -192,7 +192,7 @@ print("{} : {}".format(hex(load_addr), lib_name))
 ```
 
 The argument to the function is the `link_map` struct the implementation can
-be found here (linker_gdb_support.cpp)[https://android.googlesource.com/platform/bionic/+/master/linker/linker_gdb_support.cpp#76].
+be found here [linker_gdb_support.cpp](https://android.googlesource.com/platform/bionic/+/master/linker/linker_gdb_support.cpp#76).
 As we break on function entry we have to parse the argument based on the esp
 register. The `link_map` struct is defined as:
 
@@ -271,13 +271,18 @@ Guess the only way to make it even more easier is to modify the android
 operating system in providing more log information. (I am working on that
 but this will take while)
 
+<br/>
+
 ___
 # Ressources
 
 * [1] https://sourceware.org/gdb/onlinedocs/gdb/Python.html#Python
 
 
-# zu guter letzt ;)
+<br/>
+
+___
+## zu guter letzt ;)
 If you have any question or like this kind of content dont hesitate to
 reach out to me at niku.systems at gmail.com. Also let me know if you are
 interested in my tools at `http://niku.systems/#tools`(still in slow develop)
