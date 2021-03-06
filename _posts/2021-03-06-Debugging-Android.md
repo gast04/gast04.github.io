@@ -35,7 +35,7 @@ impractical if you have to restart the debugging session several times, which
 also can happen easily, cause IDA is not rock solid code and might encounter
 crashes during remote debugging.
 
-### Commands for connecting IDA
+#### Commands for connecting IDA
 
 ```bash
 # to assure you catch everything, start app in debug mode
@@ -282,7 +282,7 @@ ___
 <br/>
 
 ___
-## zu guter letzt ;)
+### zu guter letzt ;)
 If you have any question or like this kind of content dont hesitate to
 reach out to me at niku.systems at gmail.com. Also let me know if you are
 interested in my tools at `http://niku.systems/#tools`(still in slow develop)
