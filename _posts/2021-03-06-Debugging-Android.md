@@ -276,13 +276,14 @@ but this will take while)
 ___
 # Ressources
 
-* [1] https://sourceware.org/gdb/onlinedocs/gdb/Python.html#Python
+* [1] [https://sourceware.org/gdb/onlinedocs/gdb/Python.html#Python](https://sourceware.org/gdb/onlinedocs/gdb/Python.html#Python)
 
 
 <br/>
 
 ___
 ### zu guter letzt ;)
+
 If you have any question or like this kind of content dont hesitate to
 reach out to me at niku.systems at gmail.com. Also let me know if you are
 interested in my tools at `http://niku.systems/#tools`(still in slow develop)
