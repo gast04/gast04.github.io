@@ -263,9 +263,8 @@ rx at runtime.
 
 ___
 # Ressources
-
-* [1] https://ftp.gnu.org/old-gnu/Manuals/ld-2.9.1/html_node/ld_23.html
-* [2] https://www.intezer.com/blog/research/executable-linkable-format-101-part1-sections-segments/
+* [1] [https://ftp.gnu.org/old-gnu/Manuals/ld-2.9.1/html_node/ld_23.html](https://ftp.gnu.org/old-gnu/Manuals/ld-2.9.1/html_node/ld_23.html)
+* [2] [https://www.intezer.com/blog/research/executable-linkable-format-101-part1-sections-segments](https://www.intezer.com/blog/research/executable-linkable-format-101-part1-sections-segments)
 
 <br/>
 
