@@ -3,7 +3,7 @@ ___
 
 Lately I had to modify ELF-headers, during that I noticed that I lack some
 basic knowledge about how that all works together. So I thought that's a good
-opportunity to get a better understanding. There is just stuff I never really
+opportunity to get a better understanding. There is stuff I never really
 understood and never needed to know, for example, whats the difference between
 segments and sections?
 
