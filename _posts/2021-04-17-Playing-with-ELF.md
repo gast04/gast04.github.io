@@ -224,7 +224,7 @@ save to delete the table, which is stored at the end of the binary.
 
 Comparing the modified binary with the original one:
 
-![Alt text](Images/no_sections.png)
+![PHT Sample](https://raw.githubusercontent.com/gast04/gast04.github.io/master/img/no_sections.png)
 
 This shrinks the file size a bit and also has some nice "anti" reverse
 engineering features. While the program executes normally, gdb is not able
