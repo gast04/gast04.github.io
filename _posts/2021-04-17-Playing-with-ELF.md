@@ -35,6 +35,9 @@ rigth.
 Taking a look ahead, we can already see that the stripped version does not
 contain a symbol table, but still a dynamic symbol table.
 
+<br/>
+
+___
 # Program Header Table
 
 From [1]
@@ -69,7 +72,9 @@ The type of the program header entry can be one of the following:
 | PT_SHLIB (5)   | A reserved program header type, defined but not specified by the ELF ABI. |
 | PT_PHDR (6)    | Indicates a segment where the program headers may be found. |
 
+<br/>
 
+___
 # Trial and Error
 
 Reading through ELF documentations I thought about what parts can I
@@ -80,7 +85,6 @@ section, to load my data as RX. Cause as we learned segments are used at
 runtime, and I cant add data to the text segment cause the data is in the
 middle of the binary, so I would need to shift a lot of stuff. Thats error
 prone.
-
 
 ### Add a new segment
 
