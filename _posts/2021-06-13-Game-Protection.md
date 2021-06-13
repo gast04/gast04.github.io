@@ -1,9 +1,8 @@
 ___
 # Intro
 
-
 From time to time I take a closer look on protected games, to continue my
-series of Android its an Android game.
+series of Android this time its an Android game.
 
 I dont know anything about law, and I dont want to get into trouble so I gonna
 call the game `LiveOfTurin` and the library which would reveil the protection
@@ -22,12 +21,12 @@ some older might be not.
 Thats the case for this game, cause the older version does not have the 
 `arkenstone.so` library. Looking through the libraries:
 ```
-  libBlueDoveMediaRender.so
-  libil2cpp.so
-  libmain.so
-  libsqlite_unity_plugin.so
-  libunity.so
-  libxlua.so
+libBlueDoveMediaRender.so
+libil2cpp.so
+libmain.so
+libsqlite_unity_plugin.so
+libunity.so
+libxlua.so
 ```
 
 The `libil2cpp.so` and `libunity.so` let us know that it is a game written with
@@ -93,7 +92,7 @@ linking and segments are used at runtime. So whats the size of the `RX` segment?
 
 ![ELF Header](https://raw.githubusercontent.com/gast04/gast04.github.io/master/img/rx_segment.png)
 
-As we see the `89141328` will be loaded as `RX`, so the `.text` section is
+As we see `89141328` bytes will be loaded as `RX`, so the `.text` section is
 simply a distraction. There is some data in this loaded data, but it does not
 really seem to be any code (we will see in the next chapter).
 
@@ -141,13 +140,13 @@ code for the rest of the game library and furthermore its a super huge function.
 It contains many calls via functions pointers, that seems to be a common thing
 I see a lot of stuff like the following since a while:
 ```
-  func_ptrs[15] = (__int64)&sscanf;
-  func_ptrs[12] = (__int64)read_syscall_73689C191C;
-  func_ptrs[6]  = (__int64)sub_73689B2A40;
-  func_ptrs[16] = (__int64)openat_wrapper_73689B2748;
-  func_ptrs[17] = (__int64)close_syscall_73689C1934;
-  func_ptrs[31] = (__int64)sub_73689B2A18;
-  func_ptrs[13] = (__int64)&lseek;
+func_ptrs[15] = (__int64)&sscanf;
+func_ptrs[12] = (__int64)read_syscall_73689C191C;
+func_ptrs[6]  = (__int64)sub_73689B2A40;
+func_ptrs[16] = (__int64)openat_wrapper_73689B2748;
+func_ptrs[17] = (__int64)close_syscall_73689C1934;
+func_ptrs[31] = (__int64)sub_73689B2A18;
+func_ptrs[13] = (__int64)&lseek;
 ```
 Including functions which implement their own syscall, as for example the
 read, close syscall shown above.
@@ -214,20 +213,20 @@ But as we can simply debug it we just have to step carefully through the code.
 But yea we got lucky, it doesnt do a lot, besides xoring and writing bytes.
 Scary code like:
 ```
-  v8 = (unsigned __int8)(v8 + 1);
-  *v5 = (*(__int64 (__fastcall **)(_QWORD *, __int64, _QWORD))(*off_73689DC020 + 64LL))(off_73689DC020, v25, v11);
-  v5[1] = (*(__int64 (__fastcall **)(_QWORD *, _QWORD, _QWORD))(*off_73689DC020 + 64LL))(
-            off_73689DC020,
-            *(v5 - 31),
-            v12);
-  v5[2] = (*(__int64 (__fastcall **)(_QWORD *, _QWORD, _QWORD))(*off_73689DC020 + 64LL))(
-            off_73689DC020,
-            *(v5 - 30),
-            v13);
-  v5[3] = (*(__int64 (__fastcall **)(_QWORD *, _QWORD, _QWORD))(*off_73689DC020 + 64LL))(
-            off_73689DC020,
-            *(v5 - 29),
-            v14);
+v8 = (unsigned __int8)(v8 + 1);
+*v5 = (*(__int64 (__fastcall **)(_QWORD *, __int64, _QWORD))(*off_73689DC020 + 64LL))(off_73689DC020, v25, v11);
+v5[1] = (*(__int64 (__fastcall **)(_QWORD *, _QWORD, _QWORD))(*off_73689DC020 + 64LL))(
+          off_73689DC020,
+          *(v5 - 31),
+          v12);
+v5[2] = (*(__int64 (__fastcall **)(_QWORD *, _QWORD, _QWORD))(*off_73689DC020 + 64LL))(
+          off_73689DC020,
+          *(v5 - 30),
+          v13);
+v5[3] = (*(__int64 (__fastcall **)(_QWORD *, _QWORD, _QWORD))(*off_73689DC020 + 64LL))(
+          off_73689DC020,
+          *(v5 - 29),
+          v14);
 ```
 Turns out, that the function call simply does a xor, w0 = w1 ^ w2. At the
 end of the decode function we can dump the content of the `RX` load segment and
@@ -243,9 +242,103 @@ Definitely and improvement.
 We can now check for the function bytes of the previous `get_mydamage_381EF7C`
 function. Over 1000 hits, uff, thats a lot. Going through some hits and thinking
 about it. That acutally makes sense cause that function is a C# property and
-those look the same for all C# properties.
+those look the same for all C# properties. But at least we know that we are on
+the right track.
 
 
+<br/>
+
+___
+# next steps
+
+We got the decoded code, in theory we could restore the library. Thats what
+we want cause we want the game without protection. However we are missing a
+view parts.
+
+* For `libil2cpp.so` we dont know how what the original `.init_array` functions
+have been, we need to restore those too.
+* we still didnt look into the smali code
+
+
+<br/>
+
+___
+# Samli Code
+
+I always use `JEB` and `grep` here. Its now hard to reveil not the protection
+due to so many plain strings...
+
+On initialization the protection code checks for `magisk` using various methods.
+```
+static {
+    d.magisk_strings = new String[] {
+      "/cache/.disable_magisk", "/dev/magisk/img",
+      "/sbin/.magisk", "/cache/magisk.log",
+      "/data/adb/magisk", "/mnt/vendor/persist/magisk",
+      "/data/magisk.apk"
+    };
+}
+```
+It also reads `/proc/self/mounts` and checks for the `magisk` string. So thats
+easy to circumvent, dont use magisk or patch the strings.
+
+The interesting part is what is happening after these checks. The protection
+uses a kind of heartbeat which is triggered on every touch event.
+```
+((View)v1).setOnTouchListener(new View.OnTouchListener() {
+    @Override  // android.view.View$OnTouchListener
+    public boolean onTouch(View arg12, MotionEvent arg13) {
+        int v4 = arg4.getResources().getConfiguration().orientation;
+        long v0 = System.currentTimeMillis();
+        DisplayMetrics v12 = arg4.getResources().getDisplayMetrics();
+        arg3.a(arg4, String.valueOf(v0), arg13.getAction(), v4,
+                arg13.getToolType(0), v12.widthPixels,
+                v12.heightPixels, arg13.getX(),
+                arg13.getY());
+        return 0;
+    }
+});
+```
+
+It collects various data which is then forwarded to a native function defined
+in `arkenstone.so`. In there it will be probably send to some servers. We can
+patch this by simply deleting the code in the `onTouch` function and leave it
+empty.
+
+Nothing more was found, it loads `arkenstone.so` and defines a couple of
+native functions, which are all called in the same scheme inside the lib,
+for example `0ooOo0O...`. That makes it easy to break on all of them.
+
+<br/>
+
+___
+# Putting it together
+
+I patched the smali code and repackage it, and now its time for running the
+complete game under a debugger. Cause I am interested what is still called
+in `arkenstone.so` after patching the `onTouch` listener. To debug with IDA
+right from the beginning I use a frida script which goes in an endless loop.
+The endless loop is written in a `CModule` this way its easy with IDA to step
+out of it. I dont wanna do the `jdb` startup trick as I am not interested in the
+java part. The frida script can be found [here](https://raw.githubusercontent.com/gast04/gast04.github.io/master/code/frida_script.py).
+
+Running it and debugging, gives me a crash in `libmain.so`, and taking a look
+into it I can see that it has the same encryption than `libil2cpp.so`, interessting.
+
+CONTINUE HERE
+
+<br/>
+
+___
+# Open TODOs
+
+I didnt wrote down everything yet, and I havent finished the full project,
+I will try to continue as soon as I will find time, open things are.
+
+* restore original `.init_array` functions
+* restore `libmain.so` (same encoded as as `libil2cpp.so`)
+* completely remove `arkenstone.so`
+* where is `global-metadata.dat` decrypted
 
 <br/>
 
