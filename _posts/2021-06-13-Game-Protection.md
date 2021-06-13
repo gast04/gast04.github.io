@@ -320,7 +320,7 @@ in `arkenstone.so` after patching the `onTouch` listener. To debug with IDA
 right from the beginning I use a frida script which goes in an endless loop.
 The endless loop is written in a `CModule` this way its easy with IDA to step
 out of it. I dont wanna do the `jdb` startup trick as I am not interested in the
-java part. The frida script can be found [here](https://raw.githubusercontent.com/gast04/gast04.github.io/master/code/frida_script.py).
+java part. The frida script can be found [here](https://raw.githubusercontent.com/gast04/gast04.github.io/master/code/frida_script.js).
 
 Running it and debugging, gives me a crash in `libmain.so`, and taking a look
 into it I can see that it has the same encryption than `libil2cpp.so`, interessting.
