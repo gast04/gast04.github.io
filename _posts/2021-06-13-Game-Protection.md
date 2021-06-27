@@ -193,6 +193,7 @@ the pseudocode can be wrong but even during debugging when I changed the
 content of TracerPid it returned zero, so this "check" doesnt have any
 influence on the outcome.
 
+TODO: write down string decryption function
 
 <br/>
 
@@ -340,7 +341,7 @@ Interestingly this library does not have the same packer as `libmain` and
 `libil2cpp`, this is intersting as it contains the security code.
 
 Going through the `.init_array` functions we find a similar functions pointers
-list as previously in `.il2cpp`, only it way larger. Going through more functions
+list as previously in `.il2cpp`, only way larger. Going through more functions
 several self implemented syscalls can be found.
 
 ```
@@ -365,6 +366,84 @@ docker strings about? Googling gives me
 [docker-android](https://github.com/budtmo/docker-android), I should give that
 a try looks really nice.
 
+As a first idea, we can simply patch all the magisk strings (as thats the only
+thing I have installed on my phone) to madisk and then try running and debugging.
+I am not running on an emulator so I will leave those strings as is.
+
+Approaching debugging with my IDA+frida combo, gives us already some nice outputs,
+using frida I set hooks on basic libc functions like, `open, opendir, openat, stat, 
+exit, dlopen, dlsym` where I only print the file name in the hook to see whats
+going on. Using IDA I do single stepping in and set breakpoints on interesting
+stuff. As I changed the original apk due to the repack the open hook is 
+redirecting every access to the apk to with the real apk which is stored in
+`data/local/tmp`. This looks as follows:
+
+```
+const open_libc = Module.findExportByName("libc.so", "open");
+  Interceptor.attach(open_libc, {
+    onEnter: function(args) {
+      
+      var arg0 = args[0].readCString();
+      console.log("libc: open: " + arg0);
+
+      if (arg0 == "/data/app/com.live.of.turin/base.apk") {
+        args[0] == "/data/local/tmp/com.live.of.turin.apk"
+        console.log("--> /data/local/tmp/com.live.of.turin.apk");
+      }
+    }
+  });
+```
+***Note***: On my first run I didnt add this path replacement, and the game
+crashed pretty early, this shows that there is somewhere an integrity verification
+check inside the library.
+
+During basic debugging we already get some interesting output from our frida
+hooks:
+```
+...
+libc: stat: /system/lib/libc_malloc_debug_qemu.so-arm
+libc: stat: /system/bin/droid4x-prop
+libc: stat: /init.android_x86_64.rc
+libc: stat: /system/lib/libldutils.so
+libc: stat: /init.vbox86.rc
+libc: stat: /data/./data/com.bluestacks.appmart
+libc: stat: /system/./bin/nox-prop
+...
+```
+It is definitely checking for a virtual environment. It calls the 
+selfimplemented syscall: gettimeofday, uname, read. For easier tracking of those
+we add frida hooks to them.
+
+What I noticed during debuging, the code scheme:
+```
+for ( i = 0LL; i != 24; ++i )
+      byte_addr1[i] = (~byte_addr2[i] - byte_addr1[i]) ^ byte_addr2[i];
+```
+is always decryption/decoding a string inplace.
+
+
+The very weird thing is that the application seems to start a new process, cause
+my frida and debugging session dies, but the application continues to run and
+later crashes. But at this moment my debugger is long gone.
+
+Furthermore it also seems not to fully end the app, it goes in background.
+Reactivating it from background continues the app, but I assume thats a restart
+cause it gets a new PID.
+
+It dies definitely start some extra things, I dont know how thats working...
+```
+pme:/ # ps -A | grep u0_a95
+u0_a95        2485  1298 4893120 482868 SyS_epoll_wait 7a91a0061c S com.life.of.turin
+u0_a95        2866  2485 4553172 145552 hrtimer_nanosleep 7a91a01024 S com.life.of.turin
+pme:/ # ps -A | grep u0_a95
+u0_a95        2485  1298 4930664 404472 SyS_epoll_wait 7a91a0061c S com.life.of.turin
+u0_a95        2866  2485 4553172 145552 hrtimer_nanosleep 7a91a01024 S com.life.of.turin
+pme:/ # ps -A | grep u0_a95
+u0_a95        2485  1298 4941488 421880 SyS_epoll_wait 7a91a0061c S com.life.of.turin
+u0_a95        2866  2485   11812   1556 do_wait    7208b0675c S gameVoiceServ
+u0_a95        3133  2866    8712    568 0          7208b06024 R gameVoiceServ
+```
+
 
 ___
 # Open TODOs
@@ -374,7 +453,6 @@ I will try to continue as soon as I will find time, open things are.
 
 * restore original `.init_array` functions
 * restore `libmain.so` (same encoded as as `libil2cpp.so`)
-* completely remove `arkenstone.so`
 * where is `global-metadata.dat` decrypted
 
 <br/>
