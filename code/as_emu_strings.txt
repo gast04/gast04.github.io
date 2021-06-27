@@ -28,7 +28,7 @@
 /data/data/com.microvirt.tools
 /data/data/com.mumu.launcher
 /data/data/com.mumu.store
-/data/data/com.netease.mumu.cloner
+/data/data/com.<arkenstone>.mumu.cloner
 /system/bin/bstshutdown
 /sys/module/bstinput
 /sys/bus/pci/drivers/bstaudio
