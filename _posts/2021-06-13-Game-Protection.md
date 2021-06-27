@@ -263,7 +263,7 @@ have been, we need to restore those too.
 <br/>
 
 ___
-# Samli Code
+# Smali Code
 
 I always use `JEB` and `grep` here. Its now hard to reveil not the protection
 due to so many plain strings...
@@ -328,6 +328,43 @@ into it I can see that it has the same encryption than `libil2cpp.so`, interesst
 CONTINUE HERE
 
 <br/>
+
+
+___
+# the arkenstone, heart of the mountain
+
+Having now a good overview of what is happening, we can take a first look into
+the `heart of the mountain`.
+
+Interestingly this library does not have the same packer as `libmain` and
+`libil2cpp`, this is intersting as it contains the security code.
+
+Going through the `.init_array` functions we find a similar functions pointers
+list as previously in `.il2cpp`, only it way larger. Going through more functions
+several self implemented syscalls can be found.
+
+```
+accessat, close, exit, getpid, gettimeofday, read, fstatat, uname, getdents64,
+write, mprotect, pipe2, socketpair, openat, kill, recvfromm, sendto, geuid,
+socket
+```
+
+Those are probably inplace to avoid simple frida hooks, using IDA debugger
+we can just set breakpoints on all of those and then inspect.
+
+Moving on to plain strings in the library. The strings are not obfuscated this
+makes analysis very easy. There are a bunch of strings checking for 
+[root](https://raw.githubusercontent.com/gast04/gast04.github.io/master/code/as_root_strings.txt).
+Furthermore there are many [emulator](https://raw.githubusercontent.com/gast04/gast04.github.io/master/code/as_emu_strings.txt) 
+detection strings, intersting on those is that it checks for loaded kernel
+modules. There are also a bunch of other interesting 
+[strings](https://raw.githubusercontent.com/gast04/gast04.github.io/master/code/as_other_strings.txt)
+which I could not really classify at first sight, if they are belonging to a
+check family or just for retrieving data about the device. For example whats the
+docker strings about? Googling gives me 
+[docker-android](https://github.com/budtmo/docker-android), I should give that
+a try looks really nice.
+
 
 ___
 # Open TODOs
