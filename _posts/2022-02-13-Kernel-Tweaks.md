@@ -39,8 +39,7 @@ The changes after all are pretty minor, here is the full git diff (shortened):
 ```
 --- a/Kconfig
 +++ b/Kconfig
- source "lib/Kconfig.debug"
- 
+
  source "Documentation/Kconfig"
 +
 +source "Extension/Kconfig"
@@ -70,11 +69,25 @@ The changes after all are pretty minor, here is the full git diff (shortened):
 +   return 0;
 +}
 +
+
+>> cat Extension/Kconfig
+config EXTENSION
+  bool "My super duper feature"
+  default y
+	help
+    Extension for everything
+
+>> cat Extension/Makefile
+obj-y	+= code.o
 ```
 
 And thats it, the code inside `code.c` and `code.h` is omitted its just some
 functions which can be used inside the syscall and some globals to store data
 between calls and so on.
+
+Note that adding it to the `core-y` line is needed otherwise it will not be linked
+to the core. Also the `y`'s defines core, an `m` for example would stand
+for module.
 
 # Emulator
 
