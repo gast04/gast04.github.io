@@ -3,7 +3,7 @@
 The goal was to enable JTAG and write a JTAG debugger to debug an Arduino from
 another Arduino.
 
-<\br>
+<br/>
 ___
 
 # Information Gathering
@@ -40,7 +40,6 @@ The Bootloader can also be burned using AndroidIDE itself, it has a
 `Burn Bootloader` function. This however needs a second arduino. Which connects
 to the target arduino via the ICSP interface, obviously.
 
-
 (Trying to give a drawing, but there are super nice online resources available).
 ```
 PC ---- USB cable ---- programmer Arduino
@@ -52,6 +51,9 @@ PC ---- USB cable ---- programmer Arduino
 ```
 Check online for the correct pin mapping, be careful with the reset pin.
 
+NOTE: By looking at different mappings online, you might find pins used 
+interchangably, this is cause (talking about ArduinoUno) PIN11 is directly
+connected with MOSI Pin from the ICSP. Same goes for the other ICSP Pins.
 
 Now back to the original question on writing the highFuse bit, this can be done
 by burning the bootloader, as during compiling it takes the config from the
@@ -122,6 +124,7 @@ The highFuse byte is set by default to 0xD8 (1101 1000), which means:
 To enable `JTAGEN` the byte needs to be set to 0x98.
 
 
+
 # Before writing the highFuse, lets read it first via ICSP
 I thought before writing it, it might be smart to read it via ICSP to verify if
 it is really 0xD8. To do this I used the `Atmega_Board_Detector` sketch from [1].
@@ -132,11 +135,41 @@ Arduino it also has an implementation for Bit Banged SPI [2]).
 
 
 In the setup function it starts by setting the Serial baudrate to 115200, this
-is for the serial monitor on which it prints the read data. 
+is for the serial monitor on which it prints the read data. Ok yea, not gonna
+explain the full code here, you can read it yourself.
 
+The output however is:
+```
+Atmega chip detector.
+Written by Nick Gammon.
+Version 1.20
+Compiled on Aug  9 2022 at 20:32:50 with Arduino IDE 10810.
+Attempting to enter ICSP programming mode ...
+Entered programming mode OK.
+Signature = 0x1E 0x98 0x01
+Processor = ATmega2560
+Flash memory size = 262144 bytes.
+LFuse = 0xFF
+HFuse = 0xD0
+EFuse = 0xFD
+Lock byte = 0xCF
+Clock calibration = 0x9D
+Bootloader in use: Yes
+EEPROM preserved through erase: Yes
+Watchdog timer always on: No
+Bootloader is 8192 bytes starting at 3E000
+...
+```
 
-
-
+Here it can be seen the the HighFuse is not the default value, it is 0xD0. This
+means the EESAVE bit is programmed. Using a small modification we can use
+the Board Detector to set the Fuse as well, and this is the point where I kind
+a bricked my device... I wasnt careful and I set the LowFuse to 0x90 instead
+of the HighFuse, this means now that my clock source is set to
+`0000 -> External Clock`. This doesnt necessarily mean bricked cause I can
+attach an external clock to the chip, on pin XTAL1, but I can really solder on
+the SMD chips...
+So this Project kinda needs to rest until I got to borrow a different board..
 
 
 
