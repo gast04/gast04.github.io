@@ -303,7 +303,16 @@ This shows some pretty nice timing differences.
 * [1] https://github.com/nickgammon/arduino_sketches
 * [2] https://circuitdigest.com/article/introduction-to-bit-banging-spi-communication-in-arduino-via-bit-banging
 
+### These two are especially nice
+* http://www.gammon.com.au/forum/?id=11635
+* http://www.gammon.com.au/forum/?id=11633
+
+## unsorted links
 * https://docs.arduino.cc/built-in-examples/arduino-isp/ArduinoISP
 * https://www.brainbytez.nl/hardware/arduino-burn-jtag-enabled-bootloader-on-arduino-mega-atmega2560/
+* https://github.com/sowbug/JTAGWhisperer
+* https://hsbp.org/fuji
+* https://sourceforge.net/p/openocd/code/ci/master/tree/ 
+* https://learn.adafruit.com/arduino-tips-tricks-and-techniques/bootloader
 
 
