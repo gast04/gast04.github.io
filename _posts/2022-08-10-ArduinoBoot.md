@@ -4,8 +4,8 @@ The goal was to enable JTAG and write a JTAG debugger to debug an Arduino from
 another Arduino.
 
 <br/>
-___
 
+___
 # Information Gathering
 It needs to be checked if the `JTAGEN` bit in the `highFuse` byte is set to zero.
 In this case zero means `programmed`. To find this out already took me a while.
