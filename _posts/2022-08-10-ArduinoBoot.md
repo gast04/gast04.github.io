@@ -3,7 +3,7 @@
 The goal was to enable JTAG and write a JTAG debugger to debug an Arduino from
 another Arduino.
 
-</br>
+<\br>
 ___
 
 # Information Gathering
@@ -129,6 +129,11 @@ it is really 0xD8. To do this I used the `Atmega_Board_Detector` sketch from [1]
 This little program is very nice, it talks to the target arduino via the ICSP
 interface, using SPI obviously. (If SPI is not hardware supported on your
 Arduino it also has an implementation for Bit Banged SPI [2]).
+
+
+In the setup function it starts by setting the Serial baudrate to 115200, this
+is for the serial monitor on which it prints the read data. 
+
 
 
 
@@ -262,10 +267,10 @@ This shows some pretty nice timing differences.
 
 
 # Resources
-[1] https://github.com/nickgammon/arduino_sketches
-[2] https://circuitdigest.com/article/introduction-to-bit-banging-spi-communication-in-arduino-via-bit-banging
+* [1] https://github.com/nickgammon/arduino_sketches
+* [2] https://circuitdigest.com/article/introduction-to-bit-banging-spi-communication-in-arduino-via-bit-banging
 
-
-
+* https://docs.arduino.cc/built-in-examples/arduino-isp/ArduinoISP
+* https://www.brainbytez.nl/hardware/arduino-burn-jtag-enabled-bootloader-on-arduino-mega-atmega2560/
 
 
